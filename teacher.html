@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+  <html>
+    
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width">
+      <title>replit</title>
+      <link href="style.css" rel="stylesheet" type="text/css" />
+    </head>
+    
+    <body>
+      
+      <form id="tchrSignUpForm" action="/signup" method="post" onsubmit="return validate()">
+        <h1 class="titleS">Sign Up</h1>
+  
+        <label for="email">Email</label>
+        <input id="emailInput" type="text" name="email" placeholder="Enter Email" required>
+        <span id="emailMsg"></span>
+  
+        <label for="password">Password</label>
+        <input id="password" type="password" name="password" placeholder="Enter Password"  required>
+  
+        <label for="passwordRepeat">Repeat Password</label>
+        <input id="passwordRepeat" type="password" name="passwordRepeat" placeholder="Repeat Password" required>
+  
+        <input type="submit" value="Sign Up" id="teacherSignup">
+      </form>
+    
+    </body>
+  
+    <script>
+      function validate() {
+        var password = document.getElementById('password').value;
+        var passwordRepeat= document.getElementById('passwordRepeat').value;
+        if (passwordRepeat !== password) {
+          alert('Passwords do not match');
+          return false;
+        }
+        return true;
+      }
+    </script>
+  
+  
+  </html>

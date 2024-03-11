@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Questions</title>
+</head>
+
+<body>
+  <h1>Create Questions</h1>
+  <form action="/createQuestion" method="post" target="_blank">
+    <label for="questionText">Problem description:</label>
+    <input type="text" id="questionText" name="questionText"><br><br>
+    <label for="image">Upload your image:</label>
+    <input type="file" name="image">
+    <label for="option1">Option1:</label>
+    <input type="text" id="option1" name="option1"><br><br>
+    <label for="option2">Option2:</label>
+    <input type="text" id="option2" name="option2"><br><br>
+    <label for="option3">Option3:</label>
+    <input type="text" id="option3" name="option3"><br><br>
+    <label for="option4">Option4:</label>
+    <input type="text" id="option4" name="option4"><br><br>
+    <input type="submit" value="Submit">  
+  </form>
+  <!-- <form action="/createQuestion" method="post" enctype="multipart/form-data" id="questionForm">
+    <div id="questionsContainer">
+      <div class="questionSet">
+        <label for="questionText">Type problem text:</label>
+        <textarea name="questionTexts[]" required></textarea>
+  
+        <label for="image">Upload your image:</label>
+        <input type="file" name="images[]">
+  
+        <label for="options">Options:</label>
+        <input type="text" name="options[][0]" placeholder="Option 1" required>
+        <input type="text" name="options[][1]" placeholder="Option 2" required>
+        <input type="text" name="options[][2]" placeholder="Option 3" required>
+        <input type="text" name="options[][3]" placeholder="Option 4" required>
+      </div>
+    </div>
+    <button type="button" onclick="addQuestionSet()">Add Question</button>
+
+    <button type="submit">Create questions</button>
+  </form> -->
+
+  <script>
+    function addQuestionSet() {
+      const container = document.getElementById('questionsContainer');
+      const questionSet = document.createElement('div');
+      questionSet.classList.add('questionSet');
+
+      const questionText = document.createElement('textarea');
+      questionText.name = 'questionTexts[]';
+      questionText.placeholder = 'Type problem text:';
+      questionText.required = true;
+
+      const imageUpload = document.createElement('input');
+      imageUpload.type = 'file';
+      imageUpload.name = 'images[]';
+
+      const optionsLabel = document.createElement('label');
+      optionsLabel.textContent = 'Options:';
+
+      const option1 = document.createElement('input');
+      option1.type = 'text';
+      option1.name = 'options[][0]';
+      option1.placeholder = 'Option 1';
+      option1.required = true;
+
+      const option2 = document.createElement('input');
+      option2.type = 'text';
+      option2.name = 'options[][1]';
+      option2.placeholder = 'Option 2';
+      option2.required = true;
+
+      const option3 = document.createElement('input');
+      option3.type = 'text';
+      option3.name = 'options[][2]';
+      option3.placeholder = 'Option 3';
+      option3.required = true;
+
+      const option4 = document.createElement('input');
+      option4.type = 'text';
+      option4.name = 'options[][3]';
+      option4.placeholder = 'Option 4';
+      option4.required = true;
+
+
+
+      // Append elements to the question set
+      questionSet.appendChild(questionText);
+      questionSet.appendChild(document.createElement('br'));
+      questionSet.appendChild(imageUpload);
+      questionSet.appendChild(document.createElement('br'));
+      questionSet.appendChild(optionsLabel);
+      questionSet.appendChild(option1);
+      questionSet.appendChild(option2);
+      questionSet.appendChild(option3);
+      questionSet.appendChild(option4);
+
+      // Append the question set to the container
+      container.appendChild(questionSet);
+    }
+  </script>
+</body>
+
+</html>

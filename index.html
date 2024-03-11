@@ -1,0 +1,42 @@
+<!--Our main page-->
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>PhysicsFun</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <!-- alt text for accessibility-->
+  <img src="physics-seamless-pattern-vector-2088946" alt="Physics equations"> 
+  <h1 class="title1">Physics Fun!</h1>
+  <p class="text">Welcome to the question generator.</p>
+</head>
+
+<body>
+  <script src="script.js"></script>
+  <div class="btn" id="btn">
+    <!--login button-->
+    <button id = "login" class="btn btn1" onclick= "login()" value= "Login">Log in</button>
+    <!--signup button-->
+    <button id = "signup" class="btn btn2" onclick = "signup()" value = "SignUp">Sign up</button>
+    <!--play button-->
+    <button id = "play" class="btn btn3"onclick="play()" value ="play">Play</button>
+  </div>
+  
+</body>
+<script>
+  /**Redirects to login page when user clicks on the login button.*/
+  function login(){
+    window.location.href='login.html'
+  }
+  /**Redirects to signup page when user clicks on the login button.*/
+  function signup(){
+    window.location.href='teacher.html'
+  }
+  /**Redirects to student page when user clicks on the play button.*/
+  function play(){
+    window.location.href='student.html'
+  }
+</script>
+</html>

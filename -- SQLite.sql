@@ -1,0 +1,2 @@
+-- SQLite
+CREATE TABLE IF NOT EXISTS questions (id INTEGER PRIMARY KEY, questionText TEXT);
