@@ -8,22 +8,27 @@
 </head>
 
 <body>
-  <h1>Create Questions</h1>
-  <form action="/createQuestion" method="post" target="_blank">
+  <h1>Physics Fun</h1>
+  <button type="button">Questions</button>
+  <button type="button" onclick="responses()">Responses</button>
+  <form action="/createQuestion" method="post" enctype="multipart/form-data">
+    <label for="questionTitle">Question Title:</label>
+    <input type="text" id="questionTitle" name="questionTitle" placeholder="Untitled Question"><br><br>
     <label for="questionText">Problem description:</label>
     <input type="text" id="questionText" name="questionText"><br><br>
-    <label for="image">Upload your image:</label>
-    <input type="file" name="image">
-    <label for="option1">Option1:</label>
+    <label for="image">Upload an image:</label>
+    <input type="file" id="image" name="image"><br><br>
+    <label for="option1">Option 1:</label>
     <input type="text" id="option1" name="option1"><br><br>
-    <label for="option2">Option2:</label>
+    <label for="option2">Option 2:</label>
     <input type="text" id="option2" name="option2"><br><br>
-    <label for="option3">Option3:</label>
+    <label for="option3">Option 3:</label>
     <input type="text" id="option3" name="option3"><br><br>
-    <label for="option4">Option4:</label>
+    <label for="option4">Option 4:</label>
     <input type="text" id="option4" name="option4"><br><br>
-    <input type="submit" value="Submit">  
+    <input type="submit" value="Submit">
   </form>
+  
   <!-- <form action="/createQuestion" method="post" enctype="multipart/form-data" id="questionForm">
     <div id="questionsContainer">
       <div class="questionSet">
@@ -50,6 +55,9 @@
       const container = document.getElementById('questionsContainer');
       const questionSet = document.createElement('div');
       questionSet.classList.add('questionSet');
+
+      const questionTitle = document.createElement('textarea');
+      questionTitle.type = 'text';
 
       const questionText = document.createElement('textarea');
       questionText.name = 'questionTexts[]';
@@ -86,10 +94,11 @@
       option4.name = 'options[][3]';
       option4.placeholder = 'Option 4';
       option4.required = true;
-
+    
 
 
       // Append elements to the question set
+      questionSet.appendChild(questionTitle);
       questionSet.appendChild(questionText);
       questionSet.appendChild(document.createElement('br'));
       questionSet.appendChild(imageUpload);
@@ -99,10 +108,16 @@
       questionSet.appendChild(option2);
       questionSet.appendChild(option3);
       questionSet.appendChild(option4);
+      
 
       // Append the question set to the container
       container.appendChild(questionSet);
     }
+
+    function responses(){
+      window.location.href='summaryTable.html'
+    }
+
   </script>
 </body>
 

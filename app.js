@@ -1,5 +1,5 @@
 //NOTE: to test this file, make sure you have npm sqlite3 and npm express initialized in terminal
-//To initialize npm: npm init
+//To initialize npm: npm init(type npm install first)
 //To initialize sqlite: npm i sqlite3
 //To intialize express: npm i express
 
@@ -11,9 +11,16 @@ const multer = require("multer");
 
 //transfer express to the variable app and create a port
 const app = express();
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
 const port = 3000;
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/'); // Specify the folder where uploaded files will be stored
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname); // Generate a unique filename for the uploaded file
+  }
+});
+const upload = multer({ storage: storage });
 
 //connect sqlite3 with the database - it automatically will create a file called myDatabase.db
 const db = new sqlite3.Database("myDatabase.db", (err) => {
@@ -29,7 +36,7 @@ const db = new sqlite3.Database("myDatabase.db", (err) => {
 //parsing incoming requests with url
 app.use(express.urlencoded({ extended: true }));
 
-app.use(upload.single("images"));
+app.use(upload.single('image'));
 //serve static files from the current directory
 app.use(express.static(__dirname));
 
@@ -90,47 +97,114 @@ app.post("/login", (req, res) => {
   );
 });
 
-app.post("/createQuestion", (req, res) => {
-  try {
-    const { questionText, option1, option2, option3, option4 } = { ...req.body }
+app.post("/createQuestion", upload.single('image'), (req, res) => {
+    try {
+      const { questionText, option1, option2, option3, option4 } = req.body;
   
-    // const options = req.body.options
-    //   .map((option) => option.trim())
-    //   .filter((option) => option !== "");
-    // const image = req.file;
-    // Handle file upload (if present)
-    // Process 'image' as needed
-    //const image = req.files && req.files.image ? req.files.image : null;
-    console.log("req.body:", req.body);
-    console.log("req.image:", req.image);
-    db.run(
-      "INSERT INTO questions (questionText) VALUES(?)",
-      [questionText],
-      function (err) {
-        if (err) {
-          console.log("Error inserting question", err.message);
-          return res.send("Error: failed to create a question");
-        }
-
-        const questionID = this.lastID;
-
-        options.forEach((option, index) => {
+      // Generate a random access code
+      const generatedAccessCode = generateAccessCode(); // Implement your access code generation logic
+      
+      // Insert the question into the database
+      db.run(
+        "INSERT INTO questions (questionText) VALUES(?)",
+        [questionText],
+        function (err) {
+          if (err) {
+            console.log("Error inserting question", err.message);
+            return res.status(400).send("Error: " + err.message);
+          }
+  
+          const questionID = this.lastID;
+  
+          // Insert the options into the database
           db.run(
             "INSERT INTO options (questionId, optionText, isCorrect) VALUES (?, ?, ?)",
-            [questionID, option, index === 0 ? 1 : 0]
-          ); //assuming the first option is correct
-        });
-
-        return res.send("Question created successfully!");
+            [questionID, option1, 1] // Assuming option1 is always correct
+          );
+          db.run(
+            "INSERT INTO options (questionId, optionText, isCorrect) VALUES (?, ?, ?)",
+            [questionID, option2, 0] // Assuming option2 is incorrect
+          );
+          db.run(
+            "INSERT INTO options (questionId, optionText, isCorrect) VALUES (?, ?, ?)",
+            [questionID, option3, 0] // Assuming option3 is incorrect
+          );
+          db.run(
+            "INSERT INTO options (questionId, optionText, isCorrect) VALUES (?, ?, ?)",
+            [questionID, option4, 0] // Assuming option4 is incorrect
+          );
+  
+          // Send response with generated access code
+          return res.send(`Question created successfully! Access code: ${generatedAccessCode}`);
+        }
+      );
+    } catch (err) {
+      res.status(400).send("Error", err.message);
+    }
+    const imageUrl = req.file.location;
+  
+    // Store the image URL in the 'images' table
+    db.run('INSERT INTO images (url) VALUES (?)', [imageUrl], (err) => {
+      if (err) {
+        console.error('Error inserting image URL:', err.message);
+        return res.status(500).send('Error inserting image URL');
       }
-    );
-  } catch (err) {
-    res.sendStatus(400).send("Error", err);
+  
+      return res.send('Image uploaded and URL stored successfully!');
+    });
+  });
+  
+  // Function to generate a random access code
+  function generateAccessCode() {
+    // Implement your access code generation logic here
+    // For example, you can generate a random alphanumeric code
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const codeLength = 6;
+    let accessCode = "";
+    for (let i = 0; i < codeLength; i++) {
+      accessCode += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return accessCode;
+  }
+
+  
+
+app.post('/quizzes', async (req, res) => {
+  const { title } = req.body;
+  const accessCode = generateAccessCode(); // Implement your access code generation logic
+
+  try {
+    const stmt = db.prepare('INSERT INTO quizzes (title, accessCode) VALUES (?, ?)');
+    const result = await stmt.run(title, accessCode);
+    stmt.finalize();
+    res.json({ id: result.lastID, accessCode });
+  } catch (error) {
+    console.error('Error creating quiz:', error);
+    res.status(500).send('Error creating quiz');
   }
 });
 
-app.post("/start", (req, res) => {
-  const name = req.body.name;
+app.post('/quizzes/:quizId/questions', async (req, res) => {
+  const { quizId } = req.params;
+  const { text, options } = req.body;
+
+  try {
+    const stmt = db.prepare('INSERT INTO questions (quizId, text) VALUES (?, ?)');
+    const result = await stmt.run(quizId, text);
+    const questionId = result.lastID;
+    stmt.finalize();
+
+    const optionsStmt = db.prepare('INSERT INTO options (questionId, text, isCorrect) VALUES (?, ?, ?)');
+    options.forEach(async (option) => {
+      await optionsStmt.run(questionId, option.text, option.isCorrect ? 1 : 0);
+    });
+    optionsStmt.finalize();
+
+    res.json({ questionId });
+  } catch (error) {
+    console.error('Error adding question:', error);
+    res.status(500).send('Error adding question');
+  }
 });
 
 // Start the server
