@@ -9,23 +9,22 @@
   <link href="style.css" rel="stylesheet" type="text/css" />
   <!-- alt text for accessibility-->
   <img src="physics-seamless-pattern-vector-2088946"> 
-  <!--<h1 class="title1">Physics Fun!</h1>
-  <p class="text">Welcome to the question generator.</p>-->
-  <div class="box"><h1>Physics Fun!
-    Welcome to the question generator</h1>
-  </div>
 </head>
 
 <body>
   <script src="script.js"></script>
-  <div class="btn" id="btn">
-    <!--login button-->
-    <button id = "login" class="btn btn1" onclick= "login()" value= "Login">Log in</button>
-    <!--signup button-->
-    <button id = "signup" class="btn btn2" onclick = "signup()" value = "SignUp">Sign up</button>
+  <div class="bigBox">
+    <h1>Physics Fun!</h1>
+    <h3>Welcome to the question generator.</h3>
     <!--play button-->
-    <button id = "play" class="btn btn3"onclick="play()" value ="play">Play</button>
+    <button class="bigButton" id = "play" onclick="play()" value ="play">Play</button>
+    </div>
   </div>
+
+    <!--login button-->
+    <button class="smallButton" id = "login" onclick= "login()" value= "Login">Log in</button>
+    <!--signup button-->
+    <button class="smallButton" id = "signup" onclick = "signup()" value = "SignUp">Sign up</button>
   
 </body>
 <script>
@@ -35,11 +34,11 @@
   }
   /**Redirects to signup page when user clicks on the login button.*/
   function signup(){
-    window.location.href='teacher.html'
+    window.location.href='signup.html'
   }
   /**Redirects to student page when user clicks on the play button.*/
   function play(){
-    window.location.href='student.html'
+    window.location.href='play.html'
   }
 </script>
 </html>

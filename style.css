@@ -1,9 +1,7 @@
 html {
   background-image: url("backgroundImage.jpg");
   opacity: 0.5;
-  filter: 
-    /* hue-rotate(deg), */
-    saturate(4);
+  filter: saturate(4);
   text-align: center;
   font-family: Arial;
   height: 100%;
@@ -11,201 +9,71 @@ html {
   color: #11115f;
 }
 
-
- /*PROBLEMS:
-      1. Sign up text is not centered and when I move it the whole password stuff moves (even though it's the same code as the login page)
-      2. Login and signup buttons are not in the corner (make the position absolute like play button?)
-      3. Image is not inserting in the background
-      */
-
   img {
     border-radius: 50%;
   }
-/*
-  /*Physics fun title for the opening page, needs to be called a diff name so that the style only effects this title
-  .title1 {
-    text-align: center;
-    font-family: Arial;
-    font-size: 50px;
-    color: #11115f;
-    margin: 50px 250px;
-  }
-  #4747e6 - color code
 
-  text for the opening page
-  .text {
-    text-align: center;
-    font-family: Arial;
-    font-size: 20px;
-    color: #11115f;
-    margin: 70px 250px;
-  }
+  /*--------------------------BOXES WITH TEXT--------------------------*/
 
-  Title for Login so that they are smaller than the physics fun title
-  .titleL {
-    text-align: center;
-    font-family: Arial;
-    font-size: 30px;
-    color: #11115f;
-    margin: 50px 250px;
-  }
+.bigBox {
+  background: white; /*background colour*/
+  width: 500px; /*width of the box*/
+  height: 350px; /*height of the box*/
+  position: absolute; /*when the box moves nothing else is affected*/
+  top: 35%; /*position from the top (higher percentage further down)*/
+  left: 42%; /*position from the left (higher percentage further right)*/
+  border: solid 3px black; /*border size and colour*/
+  margin: -100px 0 0 -100px; /*makes the box move with the screen size*/
+}
 
-  .titleS {
-    text-align: center;
-    float: left;
-    font-family: Arial;
-    font-size: 30px;
-    color: #11115f;
-  }
-
-  Physics fun title for all other pages
-  .title {
-    text-align: center;
-    font-family: Arial;
-    font-size: 50px;
-    color: #11115f;
-    margin: 40px 0px;
-  }
-  */
-  /*white box behind text*/
-.box {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 8em;
-  border: solid 3px black;
-  padding: 1em;
-  max-width: 40%;
-  background-color: #ffffff;
-  margin: 100px 450px;
-  position: absolute;
-  /*position: absolute;
-  margin: 100px 680px;
-  margin: 0 auto;
-  margin-left: calc(50% - 650px);
-  width: 300px;
-  height: 200px;
-  border: 3px solid black;
-  padding: 100px;
-  background-color: #FFFFFF;*/
+  /* ----------------------BUTTONS-----------------------
   
-}
-
-.boxL {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 10em;
-  border: solid 3px black;
-  padding: 1em;
-  max-width: 50%;
-  background-color: #ffffff;
-  margin: 100px 450px;
-  position: absolute;
-  
-  /*
-  margin-top: 0;
-  position: absolute;
-  margin: 10px 680px;
-  width: 300px;
-  height: 100px;
-  border: 3px solid black;
-  padding: 100px;
-  background-color: #FFFFFF;*/
-}
-
-
-.boxS {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 8em;
-  border: solid 3px black;
-  padding: 1em;
-  max-width: 50%;
-  background-color: #ffffff;
-  margin: 100px 200px;
-  position: absolute;
-  /*
-  position: absolute;
-  margin: 0px 630px;
-  width: 300px;
-  height: 150px;
-  border: 3px solid black;
-  padding: 100px;
-  background-color: #FFFFFF;*/
-}
-  /* Learned the button placement style code from: https://www.shecodes.io/athena/4345-position-text-in-top-right-corner-with-css 
+  Learned the button placement style code from: https://www.shecodes.io/athena/4345-position-text-in-top-right-corner-with-css 
   
   Login and signup buttons for ability to create questions*/
 
-  #login {
-    right: 80px;
-    top: 10px;
+  .bigButton {
+    background-color: #11115f;
     color: white;
     border: black;
-    padding: 4px 6px;
-    text-align: center;
-    display: inline-block;
-    font-size: 16px;
-    background-color: #11115f;
-  }
-  
-  #signup {
-    margin: 10px 10px;
-    /*
-    right: 10px;
-    top: 10px;*/
-    background-color: #11115f;
-    border: black;
-    color: white;
-    padding: 4px 6px;
+    padding: 20px 60px;
     text-align: center;
     display: inline-block;
     font-size: 16px;
   }
 
-  /*Play button for ablity to answer the question*/
+  .smallButton {
+    background-color: #11115f;
+    color: white;
+    border: black;
+    width: 75px;
+    height: 40px;
+    margin: 5px 5px;
+    padding: 4px 6px;
+    font-size: 16px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+  }
+  
+  
   #play {
-    position: absolute;
-    margin: 380px -150px;
-    color: white;
-    border: black;
-    padding: 30px 60px;
-    text-align: center;
-    display: inline-block;
-    font-size: 16px;
-    background-color: #11115f;
-  }
-  
-  /*sign up and submit buttons for emails, passwords, and class codes*/
-  #teacherSignup {
-    position: absolute;
-    margin: 250px -70px;
-    color: white;
-    border: black;
-    padding: 4px 6px;
-    text-align: center;
-    display: inline-block;
-    font-size: 16px;
-    background-color: #11115f;
-  }
-
-  #studentSubmit {
-    position: absolute;
-    margin: 200px -70px;
-    color: white;
-    border: black;
-    padding: 4px 6px;
-    text-align: center;
-    display: inline-block;
-    font-size: 16px;
-    background-color: #11115f;
+    margin: 100px -100px;
   }
 
   #loginSubmit {
+    margin: 120px -100px;
+  }
+
+  #signupSubmit {
+    margin: 120px -100px;
+  }
+
+  
+  /*sign up and submit buttons for emails, passwords, and class codes*/
+  /* #teacherSignup {
     position: absolute;
-    margin: 150px -70px; /*have to use margin instead of right and top to get it to move with the page*/
+    margin: 200px -50px;
     color: white;
     border: black;
     padding: 4px 6px;
@@ -213,138 +81,97 @@ html {
     display: inline-block;
     font-size: 16px;
     background-color: #11115f;
-  }
+  } */
 
+  /* #studentSubmit {
+    position: absolute;
+    margin: -100px 0 0 -100px;
+    color: white;
+    border: black;
+    padding: 4px 6px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    background-color: #11115f;
+  } */
 
+  /* #loginSubmit {
+    position: absolute;
+    margin: 150px -50px; 
+    color: white;
+    border: black;
+    padding: 4px 6px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    background-color: #11115f;
+  } */
+
+/* ----------------------SIGNING IN REQUIRMENTS------------------------*/
   /*centers the username and password requirments for login and signup pages*/
   input[type="text"]{
     position: absolute;
-    margin: 100px -100px; padding:0px;
-    text-align:left;
+    margin: 50px -100px; padding:0px;
     width: 200px;
-    float: left;
-    margin-bottom: 10px;
   }
 
   input[type="password"]{
     position: absolute;
-    margin: 150px -100px; padding:0px;
-    text-align:left;
+    margin: 75px -100px; padding:0px;
     width: 200px;
-    float: left;
-    margin-bottom: 10px;
   }
 
   input[id="passwordRepeat"]{
     position: absolute;
-    margin: 200px -100px; padding:0px;
-    text-align:left;
+    margin: 150px -100px; padding:0px;
     width: 200px;
-    float: left;
-    margin-bottom: 10px;
   }
 
   /*Input for student play page*/
   input[type="name"]{
     position: absolute;
     margin: 100px -100px; padding:0px;
-    text-align:left;
     width: 200px;
-    float: left;
-    margin-bottom: 10px;
   }
 
   input[id="code"]{
     position: absolute;
     margin: 150px -100px; padding:0px;
-    text-align:left;
     width: 200px;
-    float: left;
-    margin-bottom: 10px;
-  }
+  } 
 
-  /*Labels for email and usernames in signup and login*/
-  label[for="email"] {
+/* -------------------------------ADDING QUESTIONS-----------------------------*/
+  input[id="questionTitle, image, questionText, option1, option2, option3, option4"]{
     position: absolute;
-    margin:100px -300px; padding:0px;
-    text-align: right;
-    width: 175px;
-    padding-right: 20px;
-    float: left;
-  }
-  
-  label[for="password"] {
-    position: absolute;
-    margin:150px -300px; padding:0px;
-    text-align: right;
-    width: 175px;
-    padding-right: 20px;
-    float: left;
-  }
-  
-  label[for="passwordRepeat"] {
-    position: absolute;
-    margin: 200px -300px; padding:0px;
-    text-align: right;
-    width: 175px;
-    padding-right: 20px;
-    float: left;
-  }
-
-  /*labels for student play page, to enter name and code*/
-  label[for="name"] {
-    position: absolute;
-    margin: 100px -300px; padding:0px;
-    text-align: right;
-    width: 175px;
-    padding-right: 20px;
-    float: left;
-  }
-
-  label[for="code"] {
-    position: absolute;
-    margin:150px -300px; padding:0px;
-    text-align: right;
-    width: 175px;
-    padding-right: 20px;
-  }
-
-  /*QUESTIONS PAGE
-  
-  
-  <label for="questionText">Problem description:</label>
-    <input type="text" id="questionText" name="questionText"><br><br>
-    <label for="image">Upload your image:</label>
-    <input type="file" name="image">
-    <label for="option1">Option1:</label>
-    <input type="text" id="option1" name="option1"><br><br>
-    <label for="option2">Option2:</label>
-    <input type="text" id="option2" name="option2"><br><br>
-    <label for="option3">Option3:</label>
-    <input type="text" id="option3" name="option3"><br><br>
-    <label for="option4">Option4:</label>
-    <input type="text" id="option4" name="option4"><br><br>
-    <label for="accessCode">Enter an access code:</label>
-    <input type="text" id="accessCode" name="accessCode"><br><br>
-    <input type="submit" value="Submit"> 
-
-DON'T WORK THE SAME 
-    input[name="file"]{
-    position: absolute;
-    margin: 100px -100px; padding:0px;
-    text-align:left;
+    margin: 20px -100px; padding:0px;
     width: 200px;
-    float: left;
-    margin-bottom: 10px;
   }
-  label[for="questionText"] {
-    position: absolute;
-    margin:150px -300px; padding:0px;
-    text-align: right;
-    width: 175px;
-    padding-right: 20px;
+  input[id="questionTitle"]{
+    margin: 20px -100px; padding:0px;
   }
-  
-    */
 
-  
+  input[id="image"]{
+    position: absolute;
+    margin: -10px -220px; padding:0px;
+    width: 200px;
+  }
+
+  input[id="questionText"]{
+    margin: 25px 20px; padding:0px;
+  }
+
+  input[id="option1"]{
+    margin: 0px -100px; padding:0px;
+  }
+
+  input[id="option2"]{
+    margin: 5px -100px; padding:0px;
+  }
+
+  input[id="option3"]{
+    margin: 10px -100px; padding:0px;
+  }
+
+  input[id="option4"]{
+    margin: 15px -100px; padding:0px;
+  }

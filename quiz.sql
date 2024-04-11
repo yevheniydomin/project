@@ -1,0 +1,2 @@
+-- SQLite
+CREATE TABLE IF NOT EXISTS quiz(id INTEGER PRIMARY KEY, generatedAccessCode TEXT NOT NULL, questionID INTEGER NOT NULL, FOREIGN KEY (questionId) REFERENCES questions(id));
