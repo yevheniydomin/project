@@ -99,7 +99,7 @@ app.post("/login", (req, res) => {
 
 app.post("/createQuestion", upload.single('image'), (req, res) => {
   try {
-    const {title, questionText, option1, option2, option3, option4 } = req.body;
+    const {title, questionText, options} = req.body;
 
     //generate a random access code
     const generatedAccessCode = generateAccessCode(); // Implement your access code generation logic
@@ -117,11 +117,11 @@ app.post("/createQuestion", upload.single('image'), (req, res) => {
     const questionInsertStmt =  db.prepare("INSERT INTO questions (title, questionText) VALUES (?, ?)");
     const questionResult =  questionInsertStmt.run(title, questionText);
     const questionId = questionResult.lastID;
-    const optionsInsertStmt =  db.prepare("INSERT INTO options (questionId, optionText, isCorrect) VALUES (?, ?, ?)");
-    optionsInsertStmt.run(questionId, option1, 1); //assuming option1 is correct
-    optionsInsertStmt.run(questionId, option2, 0); //assuming option2 is incorrect
-    optionsInsertStmt.run(questionId, option3, 0); //assuming option3 is incorrect
-    optionsInsertStmt.run(questionId, option4, 0); //assuming option4 is incorrect
+    options.forEach(option => {
+      const { min, max, answer } = option; //isCorrect could be here
+      //const correctIndex = parseInt(isCorrect);
+      db.run("INSERT INTO options (questionId, min, max, answer) VALUES (?, ?, ?, ?)", [questionId, min, max, answer]);
+    });
 
     // Create the quiz and associate it with the question
     const quizInsertStmt = db.prepare("INSERT INTO quizzes (title, accessCode) VALUES (?, ?)");
@@ -229,6 +229,35 @@ app.post("/quizzes/:quizId/questions", async (req, res) => {
     console.error("Error adding question:", error);
     res.status(500).send("Error adding question");
   }
+});
+
+//access route for play.html(meant for students)
+app.post("/play", (req, res) => {
+  const { code, name } = req.body;
+
+  //verify the access code against the database
+  db.get(
+    "SELECT * FROM quizzes WHERE accessCode = ?",
+    [code],
+    (err, row) => {
+      if (err) {
+        console.error("Error querying database:", err.message);
+        return res.send("Error: failed to verify access code");
+      }
+
+      //check if the access code exists
+      if (row) {
+        //access code exists, proceed to the quiz
+        console.log("Access code verified:", row);
+        //redirecting to another webpage to access questions
+        res.redirect("/viewQuestion.html"); // Replace "/quiz" with the actual URL of the quiz page
+      } else {
+        //if code does not exist in database, send an error
+        console.error("Invalid access code");
+        return res.send("Invalid access code");
+      }
+    }
+  );
 });
 
 //start the server

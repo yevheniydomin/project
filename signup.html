@@ -7,17 +7,17 @@
       <link href="style.css" rel="stylesheet" type="text/css" />
     
     <body>
-      <div class="bigBox">
-        <h1>Sign Up<h1>
+       
         <form id="tchrSignUpForm" action="/signup" method="post" onsubmit="return validate()">
-          <input id="emailInput" type="text" name="email" placeholder="Enter Email" required>
-          <span id="emailMsg"></span>
-          <input id="password" type="password" name="password" placeholder="Enter Password"  required>
-          <input id="passwordRepeat" type="password" name="passwordRepeat" placeholder="Repeat Password" required>
-          <input type="submit" class="bigButton" value="Sign Up" id="signupSubmit">
+          <div class="smallBox">
+            <h1>Sign Up<h1>
+            <input id="emailInput" type="text" name="email" placeholder="Enter Email" required>
+            <span id="emailMsg"></span>
+            <input id="password" type="password" name="password" placeholder="Enter Password"  required>
+            <input id="passwordRepeat" type="password" name="passwordRepeat" placeholder="Repeat Password" required>
+            <input type="submit" class="bigButton" value="Sign Up" id="signupSubmit">
+          </div>
         </form>
-      </div>
-    
     </body>
   
     <script>

@@ -25,8 +25,8 @@ const upload = multer({ storage: storage });
 //serializing to create table for database(could be done just from sql files, but having a separate js file for db is also good)
 db.serialize(() => {
   db.run('CREATE TABLE IF NOT EXISTS quizzes(id INTEGER PRIMARY KEY, title TEXT, accessCode UNIQUE, FOREIGN KEY (quizId) REFERENCES quizzes(id))');
-  db.run('CREATE TABLE IF NOT EXISTS questions (id INTEGER PRIMARY KEY, title TEXT, quizID INTEGER, questionText TEXT)');
-  db.run('CREATE TABLE IF NOT EXISTS options (id INTEGER PRIMARY KEY, questionId INTEGER, optionText TEXT, isCorrect INTEGER, FOREIGN KEY(questionId) REFERENCES questions(id))');
+  db.run('CREATE TABLE IF NOT EXISTS questions (id INTEGER PRIMARY KEY, title TEXT, quizID INTEGER, questionText TEXT, FOREIGN KEY (quizID) REFERENCES quizzes(id))');
+  db.run('CREATE TABLE IF NOT EXISTS options (id INTEGER PRIMARY KEY, questionId INTEGER, min REAL, max REAL, answer TEXT, isCorrect INTEGER, FOREIGN KEY(questionId) REFERENCES questions(id))');
   db.run('CREATE TABLE IF NOT EXISTS images(id INTEGER PRIMARY KEY, url TEXT');
 })
 
@@ -71,8 +71,8 @@ app.post('/login', (req,res) => {
 
 //createQuestion route for createQuestion.html
 app.post('/createQuestion', upload.single('image'), (req,res) => {
-  const { title, questionText, option1, option2, option3, option4 } = req.body;
-  //insert the input questions into the database
+  const { title, questionText, options } = req.body;
+  // Insert the input questions into the database
   db.run('INSERT INTO questions (title, questionText) VALUES (?, ?)', [title, questionText], function(err) {
     if (err) {
       console.error('Error inserting question:', err.message);
@@ -81,11 +81,12 @@ app.post('/createQuestion', upload.single('image'), (req,res) => {
 
     const questionId = this.lastID;
 
-    //insert the input options into the database
-    db.run('INSERT INTO options (questionId, text, isCorrect) VALUES (?, ?, ?)', [questionId, option1, 1]); // Assuming option1 is correct
-    db.run('INSERT INTO options (questionId, text, isCorrect) VALUES (?, ?, ?)', [questionId, option2, 0]); // Assuming option2 is incorrect
-    db.run('INSERT INTO options (questionId, text, isCorrect) VALUES (?, ?, ?)', [questionId, option3, 0]); // Assuming option3 is incorrect
-    db.run('INSERT INTO options (questionId, text, isCorrect) VALUES (?, ?, ?)', [questionId, option4, 0]); // Assuming option4 is incorrect
+    // Insert the input options into the database
+    options.forEach(option => {
+      const { min, max, answer} = option;
+      //const correctIndex = parseInt(isCorrect);
+      db.run('INSERT INTO options (questionId, min, max, answer) VALUES (?, ?, ?, ?)', [questionId, min, max, answer]);
+    });
     return res.send('Question created successfully!');
   });
   const imageUrl = req.file.location;

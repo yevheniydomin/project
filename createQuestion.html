@@ -4,58 +4,80 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="style.css" rel="stylesheet" type="text/css" />
+  <link href="style.css" rel="stylesheet" type="text/css" />  
 </head>
 
 <body>
-
-  <button type="button">Questions</button>
-  <!--call the function responses to access new webpage-->
-  <button type="button" onclick="responses()">Responses</button>
+  <button class="smallButton" type="button">Questions</button>
+  <button class="smallButton" type="button" onclick="responses()">Responses</button>
   <div class="bigBox">
     <form action="/createQuestion" method="post" target="_blank" id="questionForm">
-      <!--initial question set-->
       <div class="questionSet">
-        <input type="text" class="title" name="title" placeholder="Untitled Question"><br><br>
-        <input type="text" class="questionText" name="questionText" placeholder="Problem description"><br><br>
-        <input type="file" class="image" name="image" placeholder="upload an image"><br><br>
-        <input type="text" class="option1" name="options[][0]" placeholder="Option 1"><br><br>
-        <input type="text" class="option2" name="options[][1]" placeholder="Option 2"><br><br>
-        <input type="text" class="option3" name="options[][2]" placeholder="Option 3"><br><br>
-        <input type="text" class="option4" name="options[][3]" placeholder="Option 4"><br><br>
+        <input type="text" class="title" name="title" placeholder="Untitled Question" id="questionTitle"><br><br>
+        <input type="text" class="questionText" name="questionText" placeholder="Problem description" id="questionText"><br><br>
+        <input type="file" class="image" name="image" placeholder="upload an image" id="image"><br><br>
+        <!--use number inputs for min and max range for each option -->
+        <h4>Enter your desired range:</h4>
+        <input type="number" class="option-min" name="options[0][min]" placeholder="Min Option 1" step="any">
+        <input type="number" class="option-max" name="options[0][max]" placeholder="Max Option 1" step="any">
+        <input type="checkbox" class="option-correct" name="options[0][correct]" data-index="0" onchange="updateCorrect(this)">
+        <label for="option1">Correct</label>
+        <br><br>
+
+        <input type="number" class="option-min" name="options[1][min]" placeholder="Min Option 2" step="any">
+        <input type="number" class="option-max" name="options[1][max]" placeholder="Max Option 2" step="any">
+        <input type="checkbox" class="option-correct" name="options[1][correct]" data-index="0" onchange="updateCorrect(this)">
+        <label for="option2">Correct</label>
+        <br><br>
+
+        <input type="number" class="option-min" name="options[2][min]" placeholder="Min Option 3" step="any">
+        <input type="number" class="option-max" name="options[2][max]" placeholder="Max Option 3" step="any">
+        <input type="checkbox" class="option-correct" name="options[2][correct]" data-index="0" onchange="updateCorrect(this)">
+        <label for="option3">Correct</label>
+        <br><br>
+
+        <input type="number" class="option-min" name="options[3][min]" placeholder="Min Option 4" step="any">
+        <input type="number" class="option-max" name="options[3][max]" placeholder="Max Option 4" step="any">
+        <input type="checkbox" class="option-correct" name="options[3][correct]" data-index="0" onchange="updateCorrect(this)">
+        <label for="option4">Correct</label>
+        <br><br>
+
+        <button class="bigButton" type="button" onclick="addQuestionSet()" id="addQuestion">Add question</button>
+        <input class="bigButton" type="submit" value="Submit" id="submit">
       </div>
-      <input type="submit" value="Submit">
-      <!--call the function for button to duplicate question set-->
-      <button type="button" onclick="addQuestionSet()">Add question</button>
     </form>
   </div>
-
-  <script>
-    //function to duplicate question set
-    function addQuestionSet() {
-      const container = document.getElementById('questionForm');
-      const template = container.querySelector('.questionSet');
-
-      //clone the template node
-      const questionSet = template.cloneNode(true);
-
-      //clear the input values
-      questionSet.querySelector('.title').value = '';
-      questionSet.querySelector('.questionText').value = '';
-      questionSet.querySelector('.image').value = '';
-      questionSet.querySelector('.option1').value = '';
-      questionSet.querySelector('.option2').value = '';
-      questionSet.querySelector('.option3').value = '';
-      questionSet.querySelector('.option4').value = '';
-
-      //appending the cloned question set to the container
-      container.appendChild(questionSet);
-    }
-    //function responses will relocate to another webpage
-    function responses() {
-      window.location.href = 'summaryTable.html'
-    }
-  </script>
 </body>
+
+<script>
+  function addQuestionSet() {
+    const container = document.getElementById('questionForm');
+    const template = container.querySelector('.questionSet');
+    const questionSet = template.cloneNode(true);
+
+    // Clearing the input values
+    const inputs = questionSet.querySelectorAll('input[type="text"], input[type="number"]');
+    inputs.forEach(input => input.value = '');
+
+    // Uncheck all checkboxes
+    const checkboxes = questionSet.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(checkbox => checkbox.checked = false);
+
+    // Append the cloned question set to the container
+    container.appendChild(questionSet);
+  }
+
+  function updateCorrect(checkbox) {
+    const isChecked = checkbox.checked;
+    const optionDiv = checkbox.parentElement; // Get the parent container
+    const correctInput = optionDiv.querySelector('.option-correct-value');
+    correctInput.value = isChecked ? 1 : 0;
+  }
+
+
+  function responses() {
+    window.location.href = 'summaryTable.html';
+  }
+</script>
 
 </html>

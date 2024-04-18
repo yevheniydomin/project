@@ -4,13 +4,15 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="style.css" rel="stylesheet" type="text/css" />
+        
     </head>
 
     <body>
+        <button class="smallButton" type="button" onclick="createQuestion()">Questions</button>
+        <button class="smallButton" type="button">Responses</button>
         <div class="bigBox">
             <h1>Responses</h1>
-            <button type="button" onclick="createQuestion()">Questions</button>
-            <button type="button">Responses</button>
             <table>
                 <tr>
                     <th>Student Name</th>
@@ -29,6 +31,6 @@
     <script>
         function createQuestion(){
             window.location.href='createQuestion.html'
-    }
+        }
     </script>
 </html>
