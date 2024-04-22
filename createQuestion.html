@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -55,21 +56,21 @@
     const template = container.querySelector('.questionSet');
     const questionSet = template.cloneNode(true);
 
-    // Clearing the input values
+    //сlearing the input values
     const inputs = questionSet.querySelectorAll('input[type="text"], input[type="number"]');
     inputs.forEach(input => input.value = '');
 
-    // Uncheck all checkboxes
+    //гncheck all checkboxes
     const checkboxes = questionSet.querySelectorAll('input[type="checkbox"]');
     checkboxes.forEach(checkbox => checkbox.checked = false);
 
-    // Append the cloned question set to the container
+    //фppend the cloned question set to the container
     container.appendChild(questionSet);
   }
 
   function updateCorrect(checkbox) {
     const isChecked = checkbox.checked;
-    const optionDiv = checkbox.parentElement; // Get the parent container
+    const optionDiv = checkbox.parentElement; //get the parent container
     const correctInput = optionDiv.querySelector('.option-correct-value');
     correctInput.value = isChecked ? 1 : 0;
   }

@@ -113,7 +113,7 @@ app.post("/createQuestion", upload.single('image'), (req, res) => {
       }
       return accessCode;
     }
-    // Insert the question into the database
+    //insert the question into the database
     const questionInsertStmt =  db.prepare("INSERT INTO questions (title, questionText) VALUES (?, ?)");
     const questionResult =  questionInsertStmt.run(title, questionText);
     const questionId = questionResult.lastID;
@@ -123,12 +123,12 @@ app.post("/createQuestion", upload.single('image'), (req, res) => {
       db.run("INSERT INTO options (questionId, min, max, answer) VALUES (?, ?, ?, ?)", [questionId, min, max, answer]);
     });
 
-    // Create the quiz and associate it with the question
+    //create the quiz and associate it with the question
     const quizInsertStmt = db.prepare("INSERT INTO quizzes (title, accessCode) VALUES (?, ?)");
     const quizResult = quizInsertStmt.run(title, generatedAccessCode);
     const quizId = quizResult.lastID;
 
-    // Associate the question with the quiz
+    //associate the question with the quiz
     db.run("UPDATE questions SET quizId = ? WHERE id = ?", [quizId, questionId]);
 
     return res.send(`Question created successfully! Access code: ${generatedAccessCode}`);
