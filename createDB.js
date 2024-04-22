@@ -102,6 +102,41 @@ app.post('/createQuestion', upload.single('image'), (req,res) => {
     });
 });
 
+// SQL JOIN query to retrieve question details
+// app.get('/questions/:questionId', (req, res) => {
+//   const { questionId } = req.params;
+
+//   // Perform a SQL JOIN query to retrieve question details along with associated options
+//   const sql = `
+//     SELECT questions.id, questions.title, questions.questionText, options.id AS optionId, options.min, options.max, options.answer, options.isCorrect
+//     FROM questions
+//     INNER JOIN options ON questions.id = options.questionId
+//     WHERE questions.id = ?
+//   `;
+
+//   db.all(sql, [questionId], (err, rows) => {
+//     if (err) {
+//       console.error('Error retrieving question details:', err.message);
+//       return res.status(500).send('Error retrieving question details');
+//     }
+
+//     // Format the result as needed
+//     const question = {
+//       id: rows[0].id,
+//       title: rows[0].title,
+//       questionText: rows[0].questionText,
+//       options: rows.map(row => ({
+//         id: row.optionId,
+//         min: row.min,
+//         max: row.max,
+//         answer: row.answer,
+//         isCorrect: row.isCorrect
+//       }))
+//     };
+
+//     res.json(question);
+//   });
+// });
 
 
 //start the server

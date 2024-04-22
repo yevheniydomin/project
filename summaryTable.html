@@ -9,23 +9,35 @@
     </head>
 
     <body>
-        <button class="smallButton" type="button" onclick="createQuestion()">Questions</button>
-        <button class="smallButton" type="button">Responses</button>
-        <div class="bigBox">
-            <h1>Responses</h1>
-            <table>
-                <tr>
-                    <th>Student Name</th>
-                    <!-- TO DO: each time a question is created it should appear in the summary table -->
-                    <th>Question</th>
-                </tr>
-                <tr>
-                    <!-- TO DO: access student results from database and show results in table -->
-                    <td>Name1</td>
-                    <td>Result1</td>
-                </tr>
-            </table>
-        </div>
+        <form action="">
+            <button class="smallButton" type="button" onclick="createQuestion()">Questions</button>
+            <button class="smallButton" type="button">Responses</button>
+            <div class="bigBox">
+                <h1>Responses</h1>
+                <table>
+                    <tr>
+                        <th>Student Name</th>
+                        <!-- TO DO: each time a question is created it should appear in the summary table -->
+                        <th>Question 1</th>
+                        <th>Question 2</th>
+                        <th>Question 3</th>
+                        <th>Question 4</th>
+                        <th>Question 5</th>
+                        <th>Question 6</th>
+                        <th>Question 7</th>
+                        <th>Question 8</th>
+                        <th>Question 9</th>
+                        <th>Question 10</th>
+                    </tr>
+                     
+                    <tr>
+                        <!-- TO DO: access student results from database and show results in table -->
+                        <td><%= studentName%></td>
+                        <td><%= questionId%></td>
+                    </tr>
+                </table>
+            </div>
+        </form>
     <body>
 
     <script>

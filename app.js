@@ -113,7 +113,7 @@ app.post("/createQuestion", upload.single('image'), (req, res) => {
       }
       return accessCode;
     }
-    //insert the question into the database
+    // Insert the question into the database
     const questionInsertStmt =  db.prepare("INSERT INTO questions (title, questionText) VALUES (?, ?)");
     const questionResult =  questionInsertStmt.run(title, questionText);
     const questionId = questionResult.lastID;
@@ -123,13 +123,28 @@ app.post("/createQuestion", upload.single('image'), (req, res) => {
       db.run("INSERT INTO options (questionId, min, max, answer) VALUES (?, ?, ?, ?)", [questionId, min, max, answer]);
     });
 
-    //create the quiz and associate it with the question
+    // Create the quiz and associate it with the question
     const quizInsertStmt = db.prepare("INSERT INTO quizzes (title, accessCode) VALUES (?, ?)");
     const quizResult = quizInsertStmt.run(title, generatedAccessCode);
     const quizId = quizResult.lastID;
 
-    //associate the question with the quiz
+    // Associate the question with the quiz
     db.run("UPDATE questions SET quizId = ? WHERE id = ?", [quizId, questionId]);
+
+    const selectQuery = `
+      SELECT q.title AS question_title, q.questionText, o.min, o.max, o.answer, qz.title AS quiz_title, qz.accessCode
+      FROM questions q
+      JOIN options o ON q.id = o.questionId
+      JOIN quizzes qz ON q.quizId = qz.id
+      WHERE q.id = ?;
+    `;
+    db.get(selectQuery, [questionId], (err, row) => {
+      if (err) {
+        console.error("Error retrieving question details:", err.message);
+        return res.status(500).send("Error retrieving question details");
+      }
+      return res.json(row); // Sending the retrieved question details as JSON response
+    });
 
     return res.send(`Question created successfully! Access code: ${generatedAccessCode}`);
   } catch (err) {
@@ -231,10 +246,52 @@ app.post("/quizzes/:quizId/questions", async (req, res) => {
   }
 });
 
+// SQL JOIN query to retrieve question details
+// app.get('/questions/:questionId', (req, res) => {
+//   const { questionId } = req.params;
+
+//   // Perform a SQL JOIN query to retrieve question details along with associated options
+//   const sql = `
+//     SELECT questions.id, questions.title, questions.questionText, options.id AS optionId, options.min, options.max, options.answer, options.isCorrect
+//     FROM questions
+//     INNER JOIN options ON questions.id = options.questionId
+//     WHERE questions.id = ?
+//   `;
+
+//   db.all(sql, [questionId], (err, rows) => {
+//     if (err) {
+//       console.error('Error retrieving question details:', err.message);
+//       return res.status(500).send('Error retrieving question details');
+//     }
+
+//     // Format the result as needed
+//     const question = {
+//       id: rows[0].id,
+//       title: rows[0].title,
+//       questionText: rows[0].questionText,
+//       options: rows.map(row => ({
+//         id: row.optionId,
+//         min: row.min,
+//         max: row.max,
+//         answer: row.answer,
+//         isCorrect: row.isCorrect
+//       }))
+//     };
+
+//     res.json(question);
+//   });
+// });
+
 //access route for play.html(meant for students)
 app.post("/play", (req, res) => {
   const { code, name } = req.body;
 
+  db.run('INSERT INTO responses(studentName) VALUES(?)', [name], (err) => {
+    if (err) {
+      console.log('Error: failed to insert students name', err.message);
+      return res.send("Error: failed to register student");
+    }
+  })
   //verify the access code against the database
   db.get(
     "SELECT * FROM quizzes WHERE accessCode = ?",
@@ -259,6 +316,11 @@ app.post("/play", (req, res) => {
     }
   );
 });
+
+app.post('/seeResponses', (req, res) => {
+  let sql = 'SELECT * FROM responses(questionId, studentName, isCorrect) VALUES(?, ?, ?)';
+
+})
 
 //start the server
 app.listen(port, () => {

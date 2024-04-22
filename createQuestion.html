@@ -5,7 +5,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="style.css" rel="stylesheet" type="text/css" />  
+  <link href="style.css" rel="stylesheet" type="text/css" /> 
+  <!--background-image: url("paper.gif"); -->
 </head>
 
 <body>
@@ -14,8 +15,8 @@
   <div class="bigBox">
     <form action="/createQuestion" method="post" target="_blank" id="questionForm">
       <div class="questionSet">
-        <input type="text" class="title" name="title" placeholder="Untitled Question" id="questionTitle"><br><br>
-        <input type="text" class="questionText" name="questionText" placeholder="Problem description" id="questionText"><br><br>
+        <input type="text" class="text" name="title" placeholder="Untitled Question" id="questionTitle"><br><br>
+        <textarea class="questionText" name="questionText" placeholder="Problem description" id="questionText"></textarea><br><br>
         <input type="file" class="image" name="image" placeholder="upload an image" id="image"><br><br>
         <!--use number inputs for min and max range for each option -->
         <h4>Enter your desired range:</h4>

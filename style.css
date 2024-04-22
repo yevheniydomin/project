@@ -6,7 +6,7 @@ html {
   font-family: Arial;
   height: 100%;
   width: 100%;
-  color: #11115f;
+  color: #133562;
 }
 
   img {
@@ -14,12 +14,19 @@ html {
   }
   /*--------------------------------TEXT-------------------------------*/
   .title {
+    position: absolute;
     font-size: 60px;
-    margin: 125px -100px;
+    text-align: center;
+    top: 15%;
+    left: 15%;
+    /* margin: 125px -100px; */
   }
   .subtitle {
-    font-size: 1000px;
-    margin: 50px -100px;
+    position: absolute;
+    font-size: 20px;
+    text-align: center;
+    top: 38%;
+    left: 17%; 
   }
 
   /*--------------------------BOXES WITH TEXT--------------------------*/
@@ -30,7 +37,7 @@ html {
     position: absolute; /*when the box moves nothing else is affected*/
     top: 35%; /*position from the top (higher percentage further down)*/
     left: 42%; /*position from the left (higher percentage further right)*/
-    border: solid 3px #11115f; /*border size and colour*/
+    border: solid 3px #133562; /*border size and colour*/
     margin: -100px 0 0 -100px; /*makes the box move with the screen size*/
     border-radius: 800px; /* rounded corners */
   }
@@ -43,7 +50,7 @@ html {
   position: absolute; /*when the box moves nothing else is affected*/
   top: 35%; /*position from the top (higher percentage further down)*/
   left: 42%; /*position from the left (higher percentage further right)*/
-  border: solid 3px #11115f; /*border size and colour*/
+  border: solid 3px #133562; /*border size and colour*/
   margin: -100px 0 0 -100px; /*makes the box move with the screen size*/
 }
 
@@ -55,7 +62,7 @@ html {
   position: absolute; /*when the box moves nothing else is affected*/
   top: 35%; /*position from the top (higher percentage further down)*/
   left: 42%; /*position from the left (higher percentage further right)*/
-  border: solid 3px #11115f; /*border size and colour*/
+  border: solid 3px #133562; /*border size and colour*/
   margin: -100px 0 0 -100px; /*makes the box move with the screen size*/
 }
 
@@ -64,7 +71,7 @@ html {
 
   /* button characteristics */
   .bigButton {
-    background-color: #11115f;
+    background-color: #133562;
     color: white;
     border: black;
     padding: 20px 60px;
@@ -75,7 +82,7 @@ html {
 
 
   .smallButton {
-    background-color: #11115f;
+    background-color: #133562;
     color: white;
     border: black;
     width: 100px;
@@ -90,6 +97,9 @@ html {
  
   /* button positions */
   #play {
+    position: absolute;
+    top: 50%;
+    left: 53%;
     margin: 100px -100px;
   }
 
@@ -158,26 +168,26 @@ html {
  
   input[id="questionTitle"]{
     position: absolute;
-    margin: 20px -100px; padding:0px;
+    margin: 10px -100px; padding:0px;
     width: 200px;
+  }
+  textarea[id="questionText"]{
+    position: center;
+    width: 420px;
+    height: 30px;
   }
 
   input[id="image"]{
     position: absolute;
-    margin: -20px -100px; padding:0px;
+    margin: -10px -100px; padding:0px;
     width: 200px;
   }
 
-  input[id="questionText"]{
-    position: absolute;
-    margin: 50px -100px; padding:0px;
-    width: 200px;
-  }
 
   /* -----------------------Response table------------------------- */
   table{
     border: 3px solid black;
-    margin: 30px 130px; padding:0px
+    margin: 30px -300px; padding:0px
   }
 
   th, td {
