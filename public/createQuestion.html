@@ -1,85 +1,187 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <!--background-image: url("paper.gif"); -->
+  </head>
 
+  <body>
+    <button class="smallButton" type="button">Questions</button>
+    <button class="smallButton" type="button" onclick="responses()">
+      Responses
+    </button>
+    <div class="bigBox">
+      <form
+        action="/createQuestion"
+        method="post"
+        target="_blank"
+        id="questionForm"
+      >
+        <div class="questionSet">
+          <input
+            type="text"
+            class="text"
+            name="title"
+            placeholder="Untitled Question"
+            id="questionTitle"
+          /><br /><br />
+          <textarea
+            class="questionText"
+            name="questionText"
+            placeholder="Problem description"
+            id="questionText"
+          ></textarea
+          ><br /><br />
+          <input
+            type="file"
+            class="image"
+            name="image"
+            placeholder="upload an image"
+            id="image"
+          /><br /><br />
+          <!--use number inputs for min and max range for each option -->
+          <h4>Enter your desired range:</h4>
+          <input
+            type="number"
+            class="option-min"
+            name="options[0][min]"
+            placeholder="Min Option 1"
+            step="any"
+          />
+          <input
+            type="number"
+            class="option-max"
+            name="options[0][max]"
+            placeholder="Max Option 1"
+            step="any"
+          />
+          <input
+            type="checkbox"
+            class="option-correct"
+            name="options[0][correct]"
+            data-index="0"
+            onchange="updateCorrect(this)"
+          />
+          <label for="option1">Correct</label>
+          <br /><br />
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="style.css" rel="stylesheet" type="text/css" /> 
-  <!--background-image: url("paper.gif"); -->
-</head>
+          <input
+            type="number"
+            class="option-min"
+            name="options[1][min]"
+            placeholder="Min Option 2"
+            step="any"
+          />
+          <input
+            type="number"
+            class="option-max"
+            name="options[1][max]"
+            placeholder="Max Option 2"
+            step="any"
+          />
+          <input
+            type="checkbox"
+            class="option-correct"
+            name="options[1][correct]"
+            data-index="0"
+            onchange="updateCorrect(this)"
+          />
+          <label for="option2">Correct</label>
+          <br /><br />
 
-<body>
-  <button class="smallButton" type="button">Questions</button>
-  <button class="smallButton" type="button" onclick="responses()">Responses</button>
-  <div class="bigBox">
-    <form action="/createQuestion" method="post" target="_blank" id="questionForm">
-      <div class="questionSet">
-        <input type="text" class="text" name="title" placeholder="Untitled Question" id="questionTitle"><br><br>
-        <textarea class="questionText" name="questionText" placeholder="Problem description" id="questionText"></textarea><br><br>
-        <input type="file" class="image" name="image" placeholder="upload an image" id="image"><br><br>
-        <!--use number inputs for min and max range for each option -->
-        <h4>Enter your desired range:</h4>
-        <input type="number" class="option-min" name="options[0][min]" placeholder="Min Option 1" step="any">
-        <input type="number" class="option-max" name="options[0][max]" placeholder="Max Option 1" step="any">
-        <input type="checkbox" class="option-correct" name="options[0][correct]" data-index="0" onchange="updateCorrect(this)">
-        <label for="option1">Correct</label>
-        <br><br>
+          <input
+            type="number"
+            class="option-min"
+            name="options[2][min]"
+            placeholder="Min Option 3"
+            step="any"
+          />
+          <input
+            type="number"
+            class="option-max"
+            name="options[2][max]"
+            placeholder="Max Option 3"
+            step="any"
+          />
+          <input
+            type="checkbox"
+            class="option-correct"
+            name="options[2][correct]"
+            data-index="0"
+            onchange="updateCorrect(this)"
+          />
+          <label for="option3">Correct</label>
+          <br /><br />
 
-        <input type="number" class="option-min" name="options[1][min]" placeholder="Min Option 2" step="any">
-        <input type="number" class="option-max" name="options[1][max]" placeholder="Max Option 2" step="any">
-        <input type="checkbox" class="option-correct" name="options[1][correct]" data-index="0" onchange="updateCorrect(this)">
-        <label for="option2">Correct</label>
-        <br><br>
+          <input
+            type="number"
+            class="option-min"
+            name="options[3][min]"
+            placeholder="Min Option 4"
+            step="any"
+          />
+          <input
+            type="number"
+            class="option-max"
+            name="options[3][max]"
+            placeholder="Max Option 4"
+            step="any"
+          />
+          <input
+            type="checkbox"
+            class="option-correct"
+            name="options[3][correct]"
+            data-index="0"
+            onchange="updateCorrect(this)"
+          />
+          <label for="option4">Correct</label>
+          <br /><br />
 
-        <input type="number" class="option-min" name="options[2][min]" placeholder="Min Option 3" step="any">
-        <input type="number" class="option-max" name="options[2][max]" placeholder="Max Option 3" step="any">
-        <input type="checkbox" class="option-correct" name="options[2][correct]" data-index="0" onchange="updateCorrect(this)">
-        <label for="option3">Correct</label>
-        <br><br>
+          <button
+            class="bigButton"
+            type="button"
+            onclick="addQuestionSet()"
+            id="addQuestion"
+          >
+            Add question
+          </button>
+          <input class="bigButton" type="submit" value="Submit" id="submit" />
+        </div>
+      </form>
+    </div>
+  </body>
 
-        <input type="number" class="option-min" name="options[3][min]" placeholder="Min Option 4" step="any">
-        <input type="number" class="option-max" name="options[3][max]" placeholder="Max Option 4" step="any">
-        <input type="checkbox" class="option-correct" name="options[3][correct]" data-index="0" onchange="updateCorrect(this)">
-        <label for="option4">Correct</label>
-        <br><br>
+  <script>
+    function addQuestionSet() {
+      const container = document.getElementById("questionForm");
+      const template = container.querySelector(".questionSet");
+      const questionSet = template.cloneNode(true);
 
-        <button class="bigButton" type="button" onclick="addQuestionSet()" id="addQuestion">Add question</button>
-        <input class="bigButton" type="submit" value="Submit" id="submit">
-      </div>
-    </form>
-  </div>
-</body>
+      //сlearing the input values
+      const inputs = questionSet.querySelectorAll(
+        'input[type="text"], input[type="number"]',
+      );
+      inputs.forEach((input) => (input.value = ""));
 
-<script>
-  function addQuestionSet() {
-    const container = document.getElementById('questionForm');
-    const template = container.querySelector('.questionSet');
-    const questionSet = template.cloneNode(true);
+      //гncheck all checkboxes
+      const checkboxes = questionSet.querySelectorAll('input[type="checkbox"]');
+      checkboxes.forEach((checkbox) => (checkbox.checked = false));
 
-    //сlearing the input values
-    const inputs = questionSet.querySelectorAll('input[type="text"], input[type="number"]');
-    inputs.forEach(input => input.value = '');
+      //фppend the cloned question set to the container
+      container.appendChild(questionSet);
+    }
 
-    //гncheck all checkboxes
-    const checkboxes = questionSet.querySelectorAll('input[type="checkbox"]');
-    checkboxes.forEach(checkbox => checkbox.checked = false);
+    function updateCorrect(checkbox) {
+      const isChecked = checkbox.checked;
+      const optionDiv = checkbox.parentElement; //get the parent container
+      const correctInput = optionDiv.querySelector(".option-correct-value");
+      correctInput.value = isChecked ? 1 : 0;
+    }
 
-    //фppend the cloned question set to the container
-    container.appendChild(questionSet);
-  }
-
-  function updateCorrect(checkbox) {
-    const isChecked = checkbox.checked;
-    const optionDiv = checkbox.parentElement; //get the parent container
-    const correctInput = optionDiv.querySelector('.option-correct-value');
-    correctInput.value = isChecked ? 1 : 0;
-  }
-
-
-  function responses() {
-    window.location.href = 'summaryTable.html';
-  }
-</script>
-
+    function responses() {
+      window.location.href = "summaryTable.html";
+    }
+  </script>
 </html>

@@ -9,39 +9,38 @@ html {
   color: #133562;
 }
 
-  img {
-    border-radius: 50%;
-  }
-  /*--------------------------------TEXT-------------------------------*/
-  .title {
-    position: absolute;
-    font-size: 60px;
-    text-align: center;
-    top: 15%;
-    left: 15%;
-    /* margin: 125px -100px; */
-  }
-  .subtitle {
-    position: absolute;
-    font-size: 20px;
-    text-align: center;
-    top: 38%;
-    left: 17%; 
-  }
+img {
+  border-radius: 50%;
+}
+/*--------------------------------TEXT-------------------------------*/
+.title {
+  position: absolute;
+  font-size: 60px;
+  text-align: center;
+  top: 15%;
+  left: 15%;
+  /* margin: 125px -100px; */
+}
+.subtitle {
+  position: absolute;
+  font-size: 20px;
+  text-align: center;
+  top: 38%;
+  left: 17%;
+}
 
-  /*--------------------------BOXES WITH TEXT--------------------------*/
-  .circle {
-    background: white; /*background colour*/
-    width: 500px; /*width of the box*/
-    height: 500px; /*height of the box*/
-    position: absolute; /*when the box moves nothing else is affected*/
-    top: 35%; /*position from the top (higher percentage further down)*/
-    left: 42%; /*position from the left (higher percentage further right)*/
-    border: solid 3px #133562; /*border size and colour*/
-    margin: -100px 0 0 -100px; /*makes the box move with the screen size*/
-    border-radius: 800px; /* rounded corners */
-  }
-
+/*--------------------------BOXES WITH TEXT--------------------------*/
+.circle {
+  background: white; /*background colour*/
+  width: 500px; /*width of the box*/
+  height: 500px; /*height of the box*/
+  position: absolute; /*when the box moves nothing else is affected*/
+  top: 35%; /*position from the top (higher percentage further down)*/
+  left: 42%; /*position from the left (higher percentage further right)*/
+  border: solid 3px #133562; /*border size and colour*/
+  margin: -100px 0 0 -100px; /*makes the box move with the screen size*/
+  border-radius: 800px; /* rounded corners */
+}
 
 .smallBox {
   background: white; /*background colour*/
@@ -54,7 +53,6 @@ html {
   margin: -100px 0 0 -100px; /*makes the box move with the screen size*/
 }
 
-
 .bigBox {
   background: white; /*background colour*/
   width: 500px; /*width of the box*/
@@ -66,131 +64,129 @@ html {
   margin: -100px 0 0 -100px; /*makes the box move with the screen size*/
 }
 
+/* ----------------------BUTTONS-----------------------*/
 
-  /* ----------------------BUTTONS-----------------------*/
+/* button characteristics */
+.bigButton {
+  background-color: #133562;
+  color: white;
+  border: black;
+  padding: 20px 60px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+}
 
-  /* button characteristics */
-  .bigButton {
-    background-color: #133562;
-    color: white;
-    border: black;
-    padding: 20px 60px;
-    text-align: center;
-    display: inline-block;
-    font-size: 16px;
-  }
+.smallButton {
+  background-color: #133562;
+  color: white;
+  border: black;
+  width: 100px;
+  height: 40px;
+  margin: 5px 5px;
+  padding: 4px 6px;
+  font-size: 16px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+}
 
+/* button positions */
+#play {
+  position: absolute;
+  top: 50%;
+  left: 53%;
+  margin: 100px -100px;
+}
 
-  .smallButton {
-    background-color: #133562;
-    color: white;
-    border: black;
-    width: 100px;
-    height: 40px;
-    margin: 5px 5px;
-    padding: 4px 6px;
-    font-size: 16px;
-    text-align: center;
-    display: inline-block;
-    font-size: 16px;
-  }
- 
-  /* button positions */
-  #play {
-    position: absolute;
-    top: 50%;
-    left: 53%;
-    margin: 100px -100px;
-  }
+#loginSubmit {
+  margin: 140px -100px;
+}
 
+#signupSubmit {
+  margin: 140px -100px;
+}
 
-  #loginSubmit {
-    margin: 140px -100px;
-  }
+#submit {
+  margin: 80px -200px;
+}
 
+#addQuestion {
+  margin: 80px -200px;
+}
 
-  #signupSubmit {
-    margin: 140px -100px;
-  }
+#studentSubmit {
+  margin: 140px -100px;
+}
 
- 
-  #submit {
-    margin: 80px -200px;
-  }
- 
-  #addQuestion {
-    margin: 80px -200px;
-  }
- 
-  #studentSubmit {
-    margin: 140px -100px;
-  }
- 
 /* ----------------------SIGNING IN REQUIRMENTS------------------------*/
-  /*centers the username and password requirments for login and signup pages*/
-  input[type="text"]{
-    position: absolute;
-    margin: 50px -95px; padding:0px;
-    width: 200px;
-  }
+/*centers the username and password requirments for login and signup pages*/
+input[type="text"] {
+  position: absolute;
+  margin: 50px -95px;
+  padding: 0px;
+  width: 200px;
+}
 
+input[type="password"] {
+  position: absolute;
+  margin: 75px -95px;
+  padding: 0px;
+  width: 200px;
+}
 
-  input[type="password"]{
-    position: absolute;
-    margin: 75px -95px; padding:0px;
-    width: 200px;
-  }
+input[id="passwordRepeat"] {
+  position: absolute;
+  margin: 100px -95px;
+  padding: 0px;
+  width: 200px;
+}
 
+/*Input for student play page*/
+input[id="name"] {
+  position: absolute;
+  margin: 50px -95px;
+  padding: 0px;
+  width: 200px;
+}
 
-  input[id="passwordRepeat"]{
-    position: absolute;
-    margin: 100px -95px; padding:0px;
-    width: 200px;
-  }
-
-
-  /*Input for student play page*/
-  input[id="name"]{
-    position: absolute;
-    margin: 50px -95px; padding:0px;
-    width: 200px;
-  }
-
-
-  input[id="code"]{
-    position: absolute;
-    margin: 75px -95px; padding:0px;
-    width: 200px;
-  }
-
+input[id="code"] {
+  position: absolute;
+  margin: 75px -95px;
+  padding: 0px;
+  width: 200px;
+}
 
 /* -------------------------------ADDING QUESTIONS-----------------------------*/
- 
-  input[id="questionTitle"]{
-    position: absolute;
-    margin: 10px -100px; padding:0px;
-    width: 200px;
-  }
-  textarea[id="questionText"]{
-    position: center;
-    width: 420px;
-    height: 30px;
-  }
 
-  input[id="image"]{
-    position: absolute;
-    margin: -10px -100px; padding:0px;
-    width: 200px;
-  }
+input[id="questionTitle"] {
+  position: absolute;
+  margin: 10px -100px;
+  padding: 0px;
+  width: 200px;
+}
+textarea[id="questionText"] {
+  position: center;
+  width: 420px;
+  height: 30px;
+}
 
+input[id="image"] {
+  position: absolute;
+  margin: -10px -100px;
+  padding: 0px;
+  width: 200px;
+}
 
-  /* -----------------------Response table------------------------- */
-  table{
-    border: 3px solid black;
-    margin: 30px -300px; padding:0px
-  }
+/* -----------------------Response table------------------------- */
+table {
+  border: 3px solid black;
+  margin: 30px -300px;
+  padding: 0px;
+}
 
-  th, td {
-    border: 2px solid black;
-    padding: 10px;
-  }
+th,
+td {
+  border: 2px solid black;
+  padding: 10px;
+}
