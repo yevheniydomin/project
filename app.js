@@ -7,15 +7,10 @@ const app = express();
 const port = 3000;
 
 initDataBase();
-//parsing incoming requests with url
-app.use(express.urlencoded({ extended: true }));
 
-// app.use(upload.single('image'));
-//serve static files from the current directory
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
 
-//handle file upload
-//handle form submission
 app.post("/signup", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
@@ -33,7 +28,7 @@ app.post("/signup", (req, res) => {
       }
       //notify if input data is in database table, sign up is successfull
       console.log("Data inserted successfully");
-      res.redirect("/createQuestion.html");
+      res.redirect("/testQuiz.html");
     },
   );
 });

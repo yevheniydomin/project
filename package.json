@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
+    "start": "nodemon app.js",
     "prepare": "husky"
   },
   "keywords": [],
@@ -22,6 +22,7 @@
   "devDependencies": {
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
+    "nodemon": "^3.1.0",
     "prettier": "^3.2.5"
   },
   "lint-staged": {

@@ -165,11 +165,11 @@
       );
       inputs.forEach((input) => (input.value = ""));
 
-      //гncheck all checkboxes
+      //uncheck all checkboxes
       const checkboxes = questionSet.querySelectorAll('input[type="checkbox"]');
       checkboxes.forEach((checkbox) => (checkbox.checked = false));
 
-      //фppend the cloned question set to the container
+      //append the cloned question set to the container
       container.appendChild(questionSet);
     }
 
