@@ -1,44 +1,18 @@
-//NOTE: to test this file, make sure you have npm sqlite3 and npm express initialized in terminal
-//To initialize npm: npm init(type npm install first)
-//To initialize sqlite: npm i sqlite3
-//To intialize express: npm i express
-
-//initialize express and sqlite
 const express = require("express");
-const sqlite3 = require("sqlite3").verbose();
-//const bcrypt = require('bcrypt');
-const multer = require("multer");
+const { initDataBase } = require("./db/createDB");
+const { db } = require("./db/index");
+const quizController = require("./controllers/quizController");
 
-//transfer express to the variable app and create a port
 const app = express();
 const port = 3000;
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/'); // Specify the folder where uploaded files will be stored
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname); // Generate a unique filename for the uploaded file
-  }
-});
-const upload = multer({ storage: storage });
 
-//connect sqlite3 with the database - it automatically will create a file called myDatabase.db
-const db = new sqlite3.Database("myDatabase.db", (err) => {
-  if (err) {
-    //print a message if error occured
-    console.error("Database connection error:", err.message);
-  } else {
-    //otherwise notify that file is connected to myDatabase.db
-    console.log("Connected to the database");
-  }
-});
-
+initDataBase();
 //parsing incoming requests with url
 app.use(express.urlencoded({ extended: true }));
 
-app.use(upload.single('image'));
+// app.use(upload.single('image'));
 //serve static files from the current directory
-app.use(express.static(__dirname));
+app.use(express.static(__dirname + "/public"));
 
 //handle file upload
 //handle form submission
@@ -60,7 +34,7 @@ app.post("/signup", (req, res) => {
       //notify if input data is in database table, sign up is successfull
       console.log("Data inserted successfully");
       res.redirect("/createQuestion.html");
-    }
+    },
   );
 });
 
@@ -93,82 +67,27 @@ app.post("/login", (req, res) => {
         console.error("Invalid email or password");
         return res.send("Invalid email or password");
       }
-    }
+    },
   );
 });
 
-app.post("/createQuestion", upload.single('image'), (req, res) => {
-  try {
-    const {title, questionText, options} = req.body;
-
-    //generate a random access code
-    const generatedAccessCode = generateAccessCode(); // Implement your access code generation logic
-    //function to generate a random access code
-    function generateAccessCode() {
-      const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-      const codeLength = 6;
-      let accessCode = "";
-      for (let i = 0; i < codeLength; i++) {
-        accessCode += characters.charAt(Math.floor(Math.random() * characters.length));
-      }
-      return accessCode;
-    }
-    // Insert the question into the database
-    const questionInsertStmt =  db.prepare("INSERT INTO questions (title, questionText) VALUES (?, ?)");
-    const questionResult =  questionInsertStmt.run(title, questionText);
-    const questionId = questionResult.lastID;
-    options.forEach(option => {
-      const { min, max, answer } = option; //isCorrect could be here
-      //const correctIndex = parseInt(isCorrect);
-      db.run("INSERT INTO options (questionId, min, max, answer) VALUES (?, ?, ?, ?)", [questionId, min, max, answer]);
-    });
-
-    // Create the quiz and associate it with the question
-    const quizInsertStmt = db.prepare("INSERT INTO quizzes (title, accessCode) VALUES (?, ?)");
-    const quizResult = quizInsertStmt.run(title, generatedAccessCode);
-    const quizId = quizResult.lastID;
-
-    // Associate the question with the quiz
-    db.run("UPDATE questions SET quizId = ? WHERE id = ?", [quizId, questionId]);
-
-    const selectQuery = `
-      SELECT q.title AS question_title, q.questionText, o.min, o.max, o.answer, qz.title AS quiz_title, qz.accessCode
-      FROM questions q
-      JOIN options o ON q.id = o.questionId
-      JOIN quizzes qz ON q.quizId = qz.id
-      WHERE q.id = ?;
-    `;
-    db.get(selectQuery, [questionId], (err, row) => {
-      if (err) {
-        console.error("Error retrieving question details:", err.message);
-        return res.status(500).send("Error retrieving question details");
-      }
-      return res.json(row); // Sending the retrieved question details as JSON response
-    });
-
-    return res.send(`Question created successfully! Access code: ${generatedAccessCode}`);
-  } catch (err) {
-    console.error("Error creating question:", err.message);
-    return res.status(500).send("Error creating question");
-  }
-});
+app.post("/createQuestion", quizController.createQuiz);
 
 //will not be used in the future
-app.post('/uploads', upload.single('image'), (req, res) => {
+app.post("/uploads", (req, res) => {
   // Retrieve the URL of the uploaded image from req.file.location
   const imageUrl = req.file.location;
 
   // Store the image URL in the 'images' table
-  db.run('INSERT INTO images (url) VALUES (?)', [imageUrl], (err) => {
+  db.run("INSERT INTO images (url) VALUES (?)", [imageUrl], (err) => {
     if (err) {
-      console.error('Error inserting image URL:', err.message);
-      return res.status(500).send('Error inserting image URL');
+      console.error("Error inserting image URL:", err.message);
+      return res.status(500).send("Error inserting image URL");
     }
 
-    return res.send('Image uploaded and URL stored successfully!');
+    return res.send("Image uploaded and URL stored successfully!");
   });
 });
-
 
 // app.post('/quizzes', async (req, res) => {
 //   const { title } = req.body;
@@ -212,7 +131,9 @@ app.post("/quizzes", async (req, res) => {
   const accessCode = generateAccessCode();
 
   try {
-    const stmt = db.prepare("INSERT INTO quizzes (title, accessCode) VALUES (?, ?)");
+    const stmt = db.prepare(
+      "INSERT INTO quizzes (title, accessCode) VALUES (?, ?)",
+    );
     const result = await stmt.run(title, accessCode);
     stmt.finalize();
     res.json({ id: result.lastID, accessCode });
@@ -228,12 +149,16 @@ app.post("/quizzes/:quizId/questions", async (req, res) => {
   const { questionText, options } = req.body;
 
   try {
-    const stmt = db.prepare("INSERT INTO questions (quizId, questionText) VALUES (?, ?)");
+    const stmt = db.prepare(
+      "INSERT INTO questions (quizId, questionText) VALUES (?, ?)",
+    );
     const result = await stmt.run(quizId, questionText);
     const questionId = result.lastID;
     stmt.finalize();
 
-    const optionsStmt = db.prepare("INSERT INTO options (questionId, optionText, isCorrect) VALUES (?, ?, ?)");
+    const optionsStmt = db.prepare(
+      "INSERT INTO options (questionId, optionText, isCorrect) VALUES (?, ?, ?)",
+    );
     options.forEach(async (option) => {
       await optionsStmt.run(questionId, option.text, option.isCorrect ? 1 : 0);
     });
@@ -246,81 +171,41 @@ app.post("/quizzes/:quizId/questions", async (req, res) => {
   }
 });
 
-// SQL JOIN query to retrieve question details
-// app.get('/questions/:questionId', (req, res) => {
-//   const { questionId } = req.params;
-
-//   // Perform a SQL JOIN query to retrieve question details along with associated options
-//   const sql = `
-//     SELECT questions.id, questions.title, questions.questionText, options.id AS optionId, options.min, options.max, options.answer, options.isCorrect
-//     FROM questions
-//     INNER JOIN options ON questions.id = options.questionId
-//     WHERE questions.id = ?
-//   `;
-
-//   db.all(sql, [questionId], (err, rows) => {
-//     if (err) {
-//       console.error('Error retrieving question details:', err.message);
-//       return res.status(500).send('Error retrieving question details');
-//     }
-
-//     // Format the result as needed
-//     const question = {
-//       id: rows[0].id,
-//       title: rows[0].title,
-//       questionText: rows[0].questionText,
-//       options: rows.map(row => ({
-//         id: row.optionId,
-//         min: row.min,
-//         max: row.max,
-//         answer: row.answer,
-//         isCorrect: row.isCorrect
-//       }))
-//     };
-
-//     res.json(question);
-//   });
-// });
-
 //access route for play.html(meant for students)
 app.post("/play", (req, res) => {
   const { code, name } = req.body;
 
-  db.run('INSERT INTO responses(studentName) VALUES(?)', [name], (err) => {
+  db.run("INSERT INTO responses(studentName) VALUES(?)", [name], (err) => {
     if (err) {
-      console.log('Error: failed to insert students name', err.message);
+      console.log("Error: failed to insert students name", err.message);
       return res.send("Error: failed to register student");
     }
-  })
+  });
   //verify the access code against the database
-  db.get(
-    "SELECT * FROM quizzes WHERE accessCode = ?",
-    [code],
-    (err, row) => {
-      if (err) {
-        console.error("Error querying database:", err.message);
-        return res.send("Error: failed to verify access code");
-      }
-
-      //check if the access code exists
-      if (row) {
-        //access code exists, proceed to the quiz
-        console.log("Access code verified:", row);
-        //redirecting to another webpage to access questions
-        res.redirect("/viewQuestion.html"); // Replace "/quiz" with the actual URL of the quiz page
-      } else {
-        //if code does not exist in database, send an error
-        console.error("Invalid access code");
-        return res.send("Invalid access code");
-      }
+  db.get("SELECT * FROM quizzes WHERE accessCode = ?", [code], (err, row) => {
+    if (err) {
+      console.error("Error querying database:", err.message);
+      return res.send("Error: failed to verify access code");
     }
-  );
+
+    //check if the access code exists
+    if (row) {
+      //access code exists, proceed to the quiz
+      console.log("Access code verified:", row);
+      //redirecting to another webpage to access questions
+      res.redirect("/viewQuestion.html"); // Replace "/quiz" with the actual URL of the quiz page
+    } else {
+      //if code does not exist in database, send an error
+      console.error("Invalid access code");
+      return res.send("Invalid access code");
+    }
+  });
 });
 
-app.post('/seeResponses', (req, res) => {
-  let sql = 'SELECT * FROM responses(questionId, studentName, isCorrect) VALUES(?, ?, ?)';
-
-})
+app.post("/seeResponses", (req, res) => {
+  let sql =
+    "SELECT * FROM responses(questionId, studentName, isCorrect) VALUES(?, ?, ?)";
+});
 
 //start the server
 app.listen(port, () => {
