@@ -6,7 +6,7 @@ html {
   font-family: Arial;
   height: 100%;
   width: 100%;
-  color: #133562;
+  color: #2b588c;
 }
 
 img {
@@ -63,7 +63,6 @@ img {
   border: solid 3px #133562; /*border size and colour*/
   margin: -100px 0 0 -100px; /*makes the box move with the screen size*/
 }
-
 
 /* ----------------------BUTTONS-----------------------*/
 
@@ -190,4 +189,14 @@ th,
 td {
   border: 2px solid black;
   padding: 10px;
+}
+
+.questionText {
+  margin: 50px;
+}
+.option-max {
+  margin-left: 20px;
+}
+.option-correct {
+  margin-left: 20px;
 }

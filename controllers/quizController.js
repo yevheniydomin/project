@@ -6,26 +6,22 @@ const {
 } = require("../db/queries");
 
 const createQuiz = async (req, res) => {
-  const { title, questionText, options } = req.body;
-  console.log(options);
-
+  console.log(JSON.stringify(req.body));
   const accessCode = await getRandomString();
-  const quizId = await createNewQuiz(title, accessCode);
-  const questionId = await createNewQuestion(title, questionText, quizId);
+  const quizId = await createNewQuiz(accessCode);
 
-  const optionPromises = options.map(async (option) => {
-    const { min, max, answer } = option;
-    return createNewOption(
-      min,
-      max,
-      answer,
-      questionId,
-      option.correct === "on",
+  for (question of req.body.questions) {
+    const { title, description, options } = question;
+    const questionId = await createNewQuestion(title, description, quizId);
+    console.log(questionId, " QuestionId before creating new options", "idx ");
+    await Promise.all(
+      options.map(async (option) => {
+        const { min, max, correct } = option;
+        console.log(questionId, " during creating options ");
+        return await createNewOption(min, max, questionId, correct === "on");
+      }),
     );
-  });
-
-  await Promise.all(optionPromises);
-
+  }
   return res.send(`Question created successfully! Access code: ${accessCode}`);
 };
 
