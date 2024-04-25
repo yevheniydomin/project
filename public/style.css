@@ -55,14 +55,15 @@ img {
 
 .bigBox {
   background: white; /*background colour*/
-  width: 500px; /*width of the box*/
-  height: 350px; /*height of the box*/
+  width: 1300px; /*width of the box*/
+  height: 700px; /*height of the box*/
   position: absolute; /*when the box moves nothing else is affected*/
-  top: 35%; /*position from the top (higher percentage further down)*/
-  left: 42%; /*position from the left (higher percentage further right)*/
+  top: 31%; /*position from the top (higher percentage further down)*/
+  left: 20%; /*position from the left (higher percentage further right)*/
   border: solid 3px #133562; /*border size and colour*/
   margin: -100px 0 0 -100px; /*makes the box move with the screen size*/
 }
+
 
 /* ----------------------BUTTONS-----------------------*/
 
@@ -181,7 +182,7 @@ input[id="image"] {
 /* -----------------------Response table------------------------- */
 table {
   border: 3px solid black;
-  margin: 30px -300px;
+  margin: 30px 0px;
   padding: 0px;
 }
 

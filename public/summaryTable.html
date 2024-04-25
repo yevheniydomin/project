@@ -9,7 +9,7 @@
     </head>
 
     <body>
-        <form action="">
+        <form action="/seeResponses" method="post" top="50%">
             <button class="smallButton" type="button" onclick="createQuestion()">Questions</button>
             <button class="smallButton" type="button">Responses</button>
             <div class="bigBox">
@@ -29,12 +29,14 @@
                         <th>Question 9</th>
                         <th>Question 10</th>
                     </tr>
-                     
-                    <tr>
-                        <!-- TO DO: access student results from database and show results in table -->
-                        <td><%= studentName%></td>
-                        <td><%= questionId%></td>
-                    </tr>
+                    <% responses.forEach(function(responses)){ %>
+                        <tr>
+                            <!-- TO DO: access student results from database and show results in table -->
+                            <!-- link to quizId -->
+                            <td><%= responses.studentName%></td>
+                            <td><%= responses.isCorrect%></td>
+                        </tr>
+                    <% }); %>
                 </table>
             </div>
         </form>

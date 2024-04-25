@@ -28,7 +28,7 @@ app.post("/signup", (req, res) => {
       }
       //notify if input data is in database table, sign up is successfull
       console.log("Data inserted successfully");
-      res.redirect("/testQuiz.html");
+      res.redirect("/createQuestion.html");
     },
   );
 });
@@ -197,9 +197,25 @@ app.post("/play", (req, res) => {
   });
 });
 
+// app.get("/getResponses", (req, res) => {
+//   let sql = "SELECT * FROM responses(questionId, studentName, isCorrect) VALUES(?, ?, ?)";
+//   let query = connection.query(sql, (err, rows) => {
+//     if(err) throw err;
+//     res.render()
+//   });
+
+// });
+
 app.post("/seeResponses", (req, res) => {
-  let sql =
-    "SELECT * FROM responses(questionId, studentName, isCorrect) VALUES(?, ?, ?)";
+  let sql = "SELECT * FROM responses(questionId, studentName, isCorrect) VALUES(?, ?, ?)";
+  let seeResponses = {questionId: req.body.questionId, studentName: req.body.studentName, isCorrect: req.body.isCorrect};
+
+  seeResponses = connection.query(sql, (err, row) => {
+    if(err) {
+      console.error("Error posting responses", err.message);
+      return res.send("Error: failed to post responses");
+    }
+  });
 });
 
 //start the server

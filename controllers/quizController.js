@@ -7,7 +7,7 @@ const {
 
 const createQuiz = async (req, res) => {
   const { title, questionText, options } = req.body;
-  console.log(req.body);
+  console.log(options);
 
   const accessCode = await getRandomString();
   const quizId = await createNewQuiz(title, accessCode);
