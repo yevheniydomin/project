@@ -7,7 +7,7 @@ const initDataBase = async () => {
         "CREATE TABLE IF NOT EXISTS quizzes(id INTEGER PRIMARY KEY, accessCode UNIQUE)",
       );
       db.run(
-        "CREATE TABLE IF NOT EXISTS questions (id INTEGER PRIMARY KEY, title TEXT, quizID INTEGER, questionText TEXT, FOREIGN KEY (quizID) REFERENCES quizzes(id))",
+        "CREATE TABLE IF NOT EXISTS questions (id INTEGER PRIMARY KEY, title TEXT, quizID INTEGER, questionText TEXT, img STRING(1000), FOREIGN KEY (quizID) REFERENCES quizzes(id))",
       );
       db.run(
         "CREATE TABLE IF NOT EXISTS options (id INTEGER PRIMARY KEY, questionId INTEGER, min REAL, max REAL, isCorrect BOOLEAN, FOREIGN KEY(questionId) REFERENCES questions(id))",

@@ -12,16 +12,20 @@
     <button class="smallButton" type="button" onclick="responses()">
       Responses
     </button>
-    <form id="quizForm" action="createQuestion" method="post">
+    <form
+      enctype="multipart/form-data"
+      id="quizForm"
+      action="createQuestion"
+      method="post"
+    >
       <div id="questionsContainer">
-          <!-- Question fields will be added here dynamically -->
+        <!-- Question fields will be added here dynamically -->
       </div>
       <button type="button" id="addQuestionBtn">Add Question</button>
       <button type="submit">Submit Quiz</button>
     </form>
-  
-      <script src="script2.js"></script>
-    </body>
+
+    <script src="script2.js"></script>
   </body>
 
   <script>

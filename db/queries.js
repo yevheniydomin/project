@@ -58,8 +58,46 @@ const createNewOption = async (min, max, questionId, isCorrect) => {
   });
 };
 
+const getQuizBy = async () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const query = await db.prepare(
+        "SELECT FROM questions (questionId, min, max) VALUES (?, ?, ?)",
+      );
+      resolve(await query.run(questionId, min, max, isCorrect));
+    } catch (err) {
+      console.error("ERROR ON INSERTING A NEW OPTION\n", err);
+      reject(err);
+    }
+  });
+};
+
+const getQuizIdByCode = async (accessCode) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      // Prepare the SQL query with placeholder for accessCode
+      const query = "SELECT id FROM quizzes WHERE accessCode = ?";
+
+      // Execute the query with parameter binding
+      db.get(query, [accessCode], (err, row) => {
+        if (err) {
+          console.error("ERROR ON GETTING QUIZ ID BY ACCESS CODE\n", err);
+          reject(err);
+        } else {
+          // Resolve with the row containing the quiz id, or undefined if not found
+          resolve(row ? row.id : undefined);
+        }
+      });
+    } catch (err) {
+      console.error("ERROR ON GETTING QUIZ ID BY ACCESS CODE\n", err);
+      reject(err);
+    }
+  });
+};
+
 module.exports = {
   createNewQuiz,
   createNewQuestion,
   createNewOption,
+  getQuizIdByCode,
 };

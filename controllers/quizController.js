@@ -10,17 +10,16 @@ const createQuiz = async (req, res) => {
   const accessCode = await getRandomString();
   const quizId = await createNewQuiz(accessCode);
 
-  for (question of req.body.questions) {
-    const { title, description, options } = question;
+  for (let i = 0; i < req.body.questions.length; i++) {
+    const { title, description, options } = req.body.questions[i];
     const questionId = await createNewQuestion(title, description, quizId);
-    console.log(questionId, " QuestionId before creating new options", "idx ");
-    await Promise.all(
-      options.map(async (option) => {
-        const { min, max, correct } = option;
-        console.log(questionId, " during creating options ");
-        return await createNewOption(min, max, questionId, correct === "on");
-      }),
-    );
+    console.log(questionId, " QuestionId before creating new options");
+
+    for (const option of options) {
+      const { min, max, correct } = option;
+      console.log(questionId, " during creating options");
+      await createNewOption(min, max, questionId, correct === "on");
+    }
   }
   return res.send(`Question created successfully! Access code: ${accessCode}`);
 };
