@@ -2,6 +2,7 @@ const express = require("express");
 const { initDataBase } = require("./db/createDB");
 const { db } = require("./db/index");
 const quizController = require("./controllers/quizController");
+const playQuizz = require("./controllers/play");
 const { getQuizIdByCode } = require("./db/queries");
 
 const app = express();
@@ -69,7 +70,8 @@ app.post("/login", (req, res) => {
 
 app.post("/createQuestion", quizController.createQuiz);
 
-//will not be used in the future
+app.post("/play", playQuizz.playQuizz);
+
 app.post("/uploads", (req, res) => {
   // Retrieve the URL of the uploaded image from req.file.location
   const imageUrl = req.file.location;
@@ -165,83 +167,6 @@ app.post("/quizzes/:quizId/questions", async (req, res) => {
     console.error("Error adding question:", error);
     res.status(500).send("Error adding question");
   }
-});
-
-//access route for play.html(meant for students)
-app.post("/play", async (req, res) => {
-  const { code, name } = req.body;
-
-  await db.run(
-    "INSERT INTO responses(studentName) VALUES(?)",
-    [name],
-    (err) => {
-      if (err) {
-        console.log("Error: failed to insert students name", err.message);
-        return res.send("Error: failed to register student");
-      }
-    },
-  );
-  //verify the access code against the database
-  await db.get(
-    "SELECT * FROM quizzes WHERE accessCode = ?",
-    [code],
-    (err, row) => {
-      if (err) {
-        console.error("Error querying database:", err.message);
-        return res.send("Error: failed to verify access code");
-      }
-
-      //check if the access code exists
-      if (row) {
-        //access code exists, proceed to the quiz
-        console.log("Access code verified:", row.id);
-        //redirecting to another webpage to access questions
-        // const res = '<input type="text"> input </input>';
-        // return res.send(res); // Replace "/quiz" with the actual URL of the quiz page
-      } else {
-        //if code does not exist in database, send an error
-        console.error("Invalid access code");
-
-        return res.send("Invalid access code");
-      }
-    },
-  );
-  const quizId = await getQuizIdByCode(code);
-  const variable = "var";
-  const response = `<!doctype html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="style.css" rel="stylesheet" type="text/css" />
-    <!-- TO DO: title should be the name of the quiz -->
-    <title>${quizId}</title>
-  </head>
-
-  <body>
-    <div class="smallBox">
-      <h1>Question Title (from DB)</h1>
-      <p>Problem Description (from DB)</p>
-      <!-- TO DO: display image from question-->
-      <input type="radio" value="Option1" id="option1" />
-      <label for="option1">Option 1</label><br /><br />
-      <input type="radio" value="Option2" id="option2" />
-      <label for="option2">Option 2</label><br /><br />
-      <input type="radio" value="Option3" id="option3" />
-      <label for="option3">Option 3</label><br /><br />
-      <input type="radio" value="Option4" id="option4" />
-      <label for="option4">Option 4</label><br /><br />
-      <input
-        class="bigButton"
-        type="submitResponse"
-        value="Submit"
-        id="submitResponse"
-      />
-    </div>
-  </body>
-</html>`;
-  res.set("Content-Type", "text/html");
-  res.send(Buffer.from(response));
 });
 
 // app.get("/getResponses", (req, res) => {
