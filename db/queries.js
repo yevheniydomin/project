@@ -95,9 +95,41 @@ const getQuizIdByCode = async (accessCode) => {
   });
 };
 
+const insertToDb = async (tableName, columName, value) => {
+  const query = `INSERT INTO ${tableName} (${columName}) VALUES(?)`;
+  try {
+    await db.run(query, value);
+  } catch (err) {
+    console.error("ERROR ON INSERTING TO DB\n", err);
+  }
+};
+
+const getByWhere = async (tableName, columName, value) => {
+  return new Promise(async (resolve, reject) => {
+    await db.get(
+      `SELECT * FROM ${tableName} WHERE ${columName} = ?`,
+      [value],
+      (err, rows) => {
+        if (err) {
+          console.error("Error querying database:", err.message);
+          reject(err);
+        }
+
+        if (rows) {
+          resolve(rows);
+        } else {
+          reject(false);
+        }
+      },
+    );
+  });
+};
+
 module.exports = {
   createNewQuiz,
   createNewQuestion,
   createNewOption,
   getQuizIdByCode,
+  insertToDb,
+  getByWhere,
 };

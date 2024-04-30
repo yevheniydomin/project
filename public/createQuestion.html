@@ -4,7 +4,26 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="style.css" rel="stylesheet" type="text/css" />
-    <!--background-image: url("paper.gif"); -->
+
+    <style>
+      body {
+        background-image: url("whiteVignette.jpg");
+        width: 100%;
+        height: auto;
+        /* makes for only one image being overlaided (the one image takes up the screen, not 6 of the image) */
+        background-size: cover;
+        /* background-repeat: repeat-y; */
+        /* background-attachment: scroll; */
+        /*margin being zero makes the image start in the upper left corner*/
+        margin: 0px;
+      }
+    </style>
+
+    <!-- <div class="img">
+      <img src="whiteVignette.jpg">
+    </div> -->
+
+
   </head>
 
   <body>
@@ -12,12 +31,7 @@
     <button class="smallButton" type="button" onclick="responses()">
       Responses
     </button>
-    <form
-      enctype="multipart/form-data"
-      id="quizForm"
-      action="createQuestion"
-      method="post"
-    >
+    <form id="quizForm" action="/createQuestion" method="post">
       <div id="questionsContainer">
         <!-- Question fields will be added here dynamically -->
       </div>

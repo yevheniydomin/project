@@ -12,6 +12,7 @@ html {
 img {
   border-radius: 50%;
 }
+
 /*--------------------------------TEXT-------------------------------*/
 .title {
   position: absolute;
@@ -118,6 +119,7 @@ img {
 #studentSubmit {
   margin: 140px -100px;
 }
+
 
 /* ----------------------SIGNING IN REQUIRMENTS------------------------*/
 /*centers the username and password requirments for login and signup pages*/

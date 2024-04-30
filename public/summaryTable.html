@@ -29,14 +29,10 @@
                         <th>Question 9</th>
                         <th>Question 10</th>
                     </tr>
-                    <% responses.forEach(function(responses)){ %>
-                        <tr>
                             <!-- TO DO: access student results from database and show results in table -->
                             <!-- link to quizId -->
-                            <td><%= responses.studentName%></td>
-                            <td><%= responses.isCorrect%></td>
-                        </tr>
-                    <% }); %>
+                    </tr>
+                     <% }) %>
                 </table>
             </div>
         </form>
@@ -45,6 +41,10 @@
     <script>
         function createQuestion(){
             window.location.href='createQuestion.html'
+        }
+
+        function test(){
+            // link to app.js?
         }
     </script>
 </html>
