@@ -4,7 +4,26 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="style.css" rel="stylesheet" type="text/css" />
-    <!--background-image: url("paper.gif"); -->
+
+    <style>
+      body {
+        background-image: url("whiteVignette.jpg");
+        width: 100%;
+        height: auto;
+        /* makes for only one image being overlaided (the one image takes up the screen, not 6 of the image) */
+        background-size: cover;
+        /* background-repeat: repeat-y; */
+        /* background-attachment: scroll; */
+        /*margin being zero makes the image start in the upper left corner*/
+        margin: 0px;
+      }
+    </style>
+
+    <!-- <div class="img">
+      <img src="whiteVignette.jpg">
+    </div> -->
+
+
   </head>
 
   <body>
@@ -12,145 +31,15 @@
     <button class="smallButton" type="button" onclick="responses()">
       Responses
     </button>
-    <div class="bigBox">
-      <form
-        action="/createQuestion"
-        method="post"
-        target="_blank"
-        id="questionForm"
-      >
-        <div class="questionSet">
-          <input
-            type="text"
-            class="text"
-            name="title"
-            placeholder="Untitled Question"
-            id="questionTitle"
-          /><br /><br />
-          <textarea
-            class="questionText"
-            name="questionText"
-            placeholder="Problem description"
-            id="questionText"
-          ></textarea
-          ><br /><br />
-          <input
-            type="file"
-            class="image"
-            name="image"
-            placeholder="upload an image"
-            id="image"
-          /><br /><br />
-          <!--use number inputs for min and max range for each option -->
-          <h4>Enter your desired range:</h4>
-          <input
-            type="number"
-            class="option-min"
-            name="options[0][min]"
-            placeholder="Min Option 1"
-            step="any"
-          />
-          <input
-            type="number"
-            class="option-max"
-            name="options[0][max]"
-            placeholder="Max Option 1"
-            step="any"
-          />
-          <input
-            type="checkbox"
-            class="option-correct"
-            name="options[0][correct]"
-            data-index="0"
-            onchange="updateCorrect(this)"
-          />
-          <label for="option1">Correct</label>
-          <br /><br />
+    <form id="quizForm" action="/createQuestion" method="post">
+      <div id="questionsContainer">
+        <!-- Question fields will be added here dynamically -->
+      </div>
+      <button type="button" id="addQuestionBtn">Add Question</button>
+      <button type="submit">Submit Quiz</button>
+    </form>
 
-          <input
-            type="number"
-            class="option-min"
-            name="options[1][min]"
-            placeholder="Min Option 2"
-            step="any"
-          />
-          <input
-            type="number"
-            class="option-max"
-            name="options[1][max]"
-            placeholder="Max Option 2"
-            step="any"
-          />
-          <input
-            type="checkbox"
-            class="option-correct"
-            name="options[1][correct]"
-            data-index="0"
-            onchange="updateCorrect(this)"
-          />
-          <label for="option2">Correct</label>
-          <br /><br />
-
-          <input
-            type="number"
-            class="option-min"
-            name="options[2][min]"
-            placeholder="Min Option 3"
-            step="any"
-          />
-          <input
-            type="number"
-            class="option-max"
-            name="options[2][max]"
-            placeholder="Max Option 3"
-            step="any"
-          />
-          <input
-            type="checkbox"
-            class="option-correct"
-            name="options[2][correct]"
-            data-index="0"
-            onchange="updateCorrect(this)"
-          />
-          <label for="option3">Correct</label>
-          <br /><br />
-
-          <input
-            type="number"
-            class="option-min"
-            name="options[3][min]"
-            placeholder="Min Option 4"
-            step="any"
-          />
-          <input
-            type="number"
-            class="option-max"
-            name="options[3][max]"
-            placeholder="Max Option 4"
-            step="any"
-          />
-          <input
-            type="checkbox"
-            class="option-correct"
-            name="options[3][correct]"
-            data-index="0"
-            onchange="updateCorrect(this)"
-          />
-          <label for="option4">Correct</label>
-          <br /><br />
-
-          <button
-            class="bigButton"
-            type="button"
-            onclick="addQuestionSet()"
-            id="addQuestion"
-          >
-            Add question
-          </button>
-          <input class="bigButton" type="submit" value="Submit" id="submit" />
-        </div>
-      </form>
-    </div>
+    <script src="script2.js"></script>
   </body>
 
   <script>
@@ -165,11 +54,11 @@
       );
       inputs.forEach((input) => (input.value = ""));
 
-      //гncheck all checkboxes
+      //uncheck all checkboxes
       const checkboxes = questionSet.querySelectorAll('input[type="checkbox"]');
       checkboxes.forEach((checkbox) => (checkbox.checked = false));
 
-      //фppend the cloned question set to the container
+      //append the cloned question set to the container
       container.appendChild(questionSet);
     }
 

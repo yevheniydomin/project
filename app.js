@@ -2,20 +2,17 @@ const express = require("express");
 const { initDataBase } = require("./db/createDB");
 const { db } = require("./db/index");
 const quizController = require("./controllers/quizController");
+const playQuizz = require("./controllers/play");
+const { getQuizIdByCode } = require("./db/queries");
 
 const app = express();
 const port = 3000;
 
 initDataBase();
-//parsing incoming requests with url
-app.use(express.urlencoded({ extended: true }));
 
-// app.use(upload.single('image'));
-//serve static files from the current directory
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
 
-//handle file upload
-//handle form submission
 app.post("/signup", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
@@ -73,7 +70,8 @@ app.post("/login", (req, res) => {
 
 app.post("/createQuestion", quizController.createQuiz);
 
-//will not be used in the future
+app.post("/play", playQuizz.playQuizz);
+
 app.post("/uploads", (req, res) => {
   // Retrieve the URL of the uploaded image from req.file.location
   const imageUrl = req.file.location;
@@ -171,40 +169,30 @@ app.post("/quizzes/:quizId/questions", async (req, res) => {
   }
 });
 
-//access route for play.html(meant for students)
-app.post("/play", (req, res) => {
-  const { code, name } = req.body;
+// app.get("/getResponses", (req, res) => {
+//   let sql = "SELECT * FROM responses(questionId, studentName, isCorrect) VALUES(?, ?, ?)";
+//   let query = connection.query(sql, (err, rows) => {
+//     if(err) throw err;
+//     res.render()
+//   });
 
-  db.run("INSERT INTO responses(studentName) VALUES(?)", [name], (err) => {
-    if (err) {
-      console.log("Error: failed to insert students name", err.message);
-      return res.send("Error: failed to register student");
-    }
-  });
-  //verify the access code against the database
-  db.get("SELECT * FROM quizzes WHERE accessCode = ?", [code], (err, row) => {
-    if (err) {
-      console.error("Error querying database:", err.message);
-      return res.send("Error: failed to verify access code");
-    }
-
-    //check if the access code exists
-    if (row) {
-      //access code exists, proceed to the quiz
-      console.log("Access code verified:", row);
-      //redirecting to another webpage to access questions
-      res.redirect("/viewQuestion.html"); // Replace "/quiz" with the actual URL of the quiz page
-    } else {
-      //if code does not exist in database, send an error
-      console.error("Invalid access code");
-      return res.send("Invalid access code");
-    }
-  });
-});
+// });
 
 app.post("/seeResponses", (req, res) => {
   let sql =
     "SELECT * FROM responses(questionId, studentName, isCorrect) VALUES(?, ?, ?)";
+  let seeResponses = {
+    questionId: req.body.questionId,
+    studentName: req.body.studentName,
+    isCorrect: req.body.isCorrect,
+  };
+
+  seeResponses = connection.query(sql, (err, row) => {
+    if (err) {
+      console.error("Error posting responses", err.message);
+      return res.send("Error: failed to post responses");
+    }
+  });
 });
 
 //start the server
