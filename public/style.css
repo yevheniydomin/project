@@ -1,82 +1,111 @@
-html {
-  background-image: url("backgroundImage.jpg");
-  opacity: 0.5;
-  filter: saturate(4);
-  text-align: center;
-  font-family: Arial;
-  height: 100%;
+html::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  color: #2b588c;
+  height: 100%;
+  background-image: url("backgroundImage.jpg");
+  opacity: 0.4;
+  filter: saturate(4);
+  z-index: -1;
+}
+
+html {
+  color: #8c49f8;
+}
+
+body {
+  color: #8c49f8;
 }
 
 img {
   border-radius: 50%;
 }
 
+form {
+  margin: 0 auto;
+  width: 500px;
+}
 
+label {
+  display: inline;
+  position: relative;
+}
+h1 {
+  padding-left: 5px;
+  padding-top: 5px;
+}
+
+div {
+  text-align: center;
+  display: block;
+  margin: 5px;
+}
 /*--------------------------------TEXT-------------------------------*/
 .title {
-  position: absolute;
-  font-size: 60px;
-  text-align: center;
-  top: 15%;
-  left: 15%;
+  margin: 0 auto;
   /* margin: 125px -100px; */
 }
 .subtitle {
-  position: absolute;
-  font-size: 20px;
+  display: block;
   text-align: center;
-  top: 38%;
-  left: 17%;
 }
 
 /*--------------------------BOXES WITH TEXT--------------------------*/
 .circle {
   background: white; /*background colour*/
-  width: 500px; /*width of the box*/
-  height: 500px; /*height of the box*/
-  position: absolute; /*when the box moves nothing else is affected*/
-  top: 35%; /*position from the top (higher percentage further down)*/
-  left: 42%; /*position from the left (higher percentage further right)*/
-  border: solid 3px #133562; /*border size and colour*/
-  margin: -100px 0 0 -100px; /*makes the box move with the screen size*/
+  width: 650px; /*width of the box*/
+  display: block;
+  text-align: center;
+  /*height of the box*/
+  /*position from the left (higher percentage further right)*/
+  border: solid 3px #8c49f8; /*border size and colour*/
+  margin: 0 auto; /*makes the box move with the screen size*/
   border-radius: 800px; /* rounded corners */
 }
 
 .smallBox {
   background: white; /*background colour*/
-  width: 500px; /*width of the box*/
-  height: 350px; /*height of the box*/
-  position: absolute; /*when the box moves nothing else is affected*/
-  top: 35%; /*position from the top (higher percentage further down)*/
-  left: 42%; /*position from the left (higher percentage further right)*/
-  border: solid 3px #133562; /*border size and colour*/
-  margin: -100px 0 0 -100px; /*makes the box move with the screen size*/
+  width: 650px; /*width of the box*/ /*height of the box*/
+  position: center;
+  margin-top: 0 auto; /*when the box moves nothing else is affected*/
+  /*position from the left (higher percentage further right)*/
+  border: solid 2px #8c49f8; /*border size and colour*/
+  /*makes the box move with the screen size*/
 }
 
+/* .questions {
+  width: 500px;
+  position: absolute;
+} */
+
 .bigBox {
-  background: white; /*background colour*/
-  width: 1300px; /*width of the box*/
-  height: 700px; /*height of the box*/
-  position: absolute; /*when the box moves nothing else is affected*/
-  top: 31%; /*position from the top (higher percentage further down)*/
-  left: 20%; /*position from the left (higher percentage further right)*/
-  border: solid 3px #133562; /*border size and colour*/
-  margin: -100px 0 0 -100px; /*makes the box move with the screen size*/
+  background: white;
+  /*background colour*/
+  width: 1300px;
+  /*width of the box*/
+  height: 700px;
+  /*height of the box*/
+  position: absolute;
+  /*when the box moves nothing else is affected*/
+  top: 31%;
+  /*position from the top (higher percentage further down)*/
+  left: 20%;
+  /*position from the left (higher percentage further right)*/
+  border: solid 3px #8c49f8;
+  /*border size and colour*/
+  margin: -100px 0 0 -100px;
+  /*makes the box move with the screen size*/
 }
 
 /* ----------------------BUTTONS-----------------------*/
 
 /* button characteristics */
-.bigButton {
-  background-color: #133562;
-  color: white;
-  border: black;
-  padding: 20px 60px;
-  text-align: center;
-  display: inline-block;
-  font-size: 16px;
+
+.header {
+  margin-top: 20px;
+  margin-bottom: 40px;
 }
 
 .smallButton {
@@ -88,17 +117,56 @@ img {
   margin: 5px 5px;
   padding: 4px 6px;
   font-size: 16px;
-  text-align: center;
   display: inline-block;
+  text-align: center;
   font-size: 16px;
+  border: solid #8c49f8 2px;
+}
+
+.bigButton {
+  margin-top: 100px;
 }
 
 /* button positions */
 #play {
-  position: absolute;
-  top: 50%;
-  left: 53%;
-  margin: 100px -100px;
+  margin-top: 20px;
+  background-color: #133562;
+  color: white;
+  border: solid #8c49f8 2px;
+  padding: 20px 60px;
+  text-align: center;
+  font-size: 16px;
+  border-top-left-radius: 65%;
+  border-bottom-right-radius: 65%;
+}
+
+#play:hover {
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  transform: translate3d(0, 0, 0);
+  perspective: 1000px;
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
 }
 
 #loginSubmit {
@@ -120,7 +188,6 @@ img {
 #studentSubmit {
   margin: 140px -100px;
 }
-
 
 /* ----------------------SIGNING IN REQUIRMENTS------------------------*/
 /*centers the username and password requirments for login and signup pages*/
@@ -168,6 +235,7 @@ input[id="questionTitle"] {
   padding: 0px;
   width: 200px;
 }
+
 textarea[id="questionText"] {
   position: center;
   width: 420px;

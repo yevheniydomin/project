@@ -8,14 +8,14 @@ const getPlayHTML = (questions) => {
     <title></title>
   </head>
   <body>
-    <div class = 'questions'>`;
+    <form class = "questions">`;
   const bottomHTML = `
-        </div>
             <input
-            class="bigButton"
-            type="button"
-            value="Submit"
-            id="submitResponse"/>
+                class="bigButton"
+                type="button"
+                value="Submit"
+                id="submitResponse"<input/>
+        </form>
     </body>
 </html>;`;
   let questionsComponents = questions.map((question) => {
@@ -23,15 +23,14 @@ const getPlayHTML = (questions) => {
         <div class="smallBox">
             <h1>${question.title}</h1>
             <p>${question.questionText}</p>
-            <!-- TO DO: display image from question-->
             <input type="radio" value="${question.options[0].min} - ${question.options[0].max}" id="option1" />
-            <label for="option1">Option 1</label><br /><br />
+            <label for="option1">${question.options[0].min} - ${question.options[0].max}</label><br /><br />
             <input type="radio" value="${question.options[1].min} - ${question.options[1].max}" id="option2" />
-            <label for="option2">Option 2</label><br /><br />
+            <label for="option2">${question.options[1].min} - ${question.options[1].max}</label><br /><br />
             <input type="radio" value="${question.options[2].min} - ${question.options[2].max}" id="option3" />
-            <label for="option3">Option 3</label><br /><br />
+            <label for="option3">${question.options[2].min} - ${question.options[2].max}</label><br /><br />
             <input type="radio" value="${question.options[3].min} - ${question.options[3].max}" id="option4" />
-            <label for="option4">Option 4</label><br/><br/>
+            <label for="option4">${question.options[3].min} - ${question.options[3].max}</label><br/><br/>
         </div>`;
   });
 
