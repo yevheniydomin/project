@@ -106,7 +106,7 @@ const insertToDb = async (tableName, columName, value) => {
 
 const getByWhere = async (tableName, columName, value) => {
   return new Promise(async (resolve, reject) => {
-    await db.get(
+    await db.all(
       `SELECT * FROM ${tableName} WHERE ${columName} = ?`,
       [value],
       (err, rows) => {
