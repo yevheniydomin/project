@@ -104,6 +104,15 @@ const insertToDb = async (tableName, columName, value) => {
   }
 };
 
+const insertQuizzResult = async (quizId, questionId, user, answeredOption) => {
+  const query = `INSERT INTO responses (quizId, questionId, studentName, answeredOptionId) VALUES(?, ?, ?, ?)`;
+  try {
+    await db.run(query, [quizId, questionId, user, answeredOption]);
+  } catch (err) {
+    console.error("ERROR ON INSERTING QUIZ ANSWER TO DB\n", err);
+  }
+};
+
 const getByWhere = async (tableName, columName, value) => {
   return new Promise(async (resolve, reject) => {
     await db.all(
@@ -132,4 +141,5 @@ module.exports = {
   getQuizIdByCode,
   insertToDb,
   getByWhere,
+  insertQuizzResult,
 };
