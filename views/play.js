@@ -8,14 +8,12 @@ const getPlayHTML = (questions) => {
     <title></title>
   </head>
   <body>
-    <form class = "questions">`;
+    <form id="questions">`;
+
   const bottomHTML = `
-            <input
-                class="bigButton"
-                type="button"
-                value="Submit"
-                id="submitResponse"<input/>
+            <button type="submit" class="btn btn-primary">Submit</button>
         </form>
+        <script src="submitQuiz.js"></script>
     </body>
 </html>;`;
   let questionsComponents = questions.map((question) => {

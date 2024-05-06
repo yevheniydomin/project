@@ -45,12 +45,14 @@ document.addEventListener("DOMContentLoaded", function () {
     for (let i = 1; i <= 4; i++) {
       const minInput = document.createElement("input");
       minInput.type = "number";
+      minInput.step = "any";
       minInput.classList.add("option-min");
       minInput.name = `questions[${questionCounter}][options][${i - 1}][min]`;
       minInput.placeholder = `Min Option ${i}`;
 
       const maxInput = document.createElement("input");
       maxInput.type = "number";
+      maxInput.step = "any";
       maxInput.classList.add("option-max");
       maxInput.name = `questions[${questionCounter}][options][${i - 1}][max]`;
       maxInput.placeholder = `Max Option ${i}`;
