@@ -1,17 +1,26 @@
 const submitForm = async (e) => {
   e.preventDefault();
-  console.log(e);
-  const formData = new FormData();
-  const form = document.getElementById("questions");
-  form.querySelectorAll('input[type="radio"]').forEach(function (input) {
-    formData.append(input.id, input.value);
+  const formData = [];
+  const formDivs = document.querySelectorAll(".smallBox");
+
+  formDivs.forEach((div) => {
+    const checkedRadioButton = div.querySelector('input[type="radio"]:checked');
+    if (checkedRadioButton) {
+      formData.push({
+        questionId: checkedRadioButton.name,
+        answeredOption: checkedRadioButton.value,
+        quizId: div.getAttribute("quiz"),
+        name: div.getAttribute("userName"),
+      });
+    }
   });
 
-  console.log(formData);
-
-  await fetch("http://localhost:3000/saveResult", {
+  await fetch("http://localhost:3000/submit", {
     method: "POST",
-    body: formData,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
   })
     .then((response) => {
       if (!response.ok) {
@@ -25,5 +34,3 @@ const submitForm = async (e) => {
 };
 const quizzFormToSubmit = document.getElementById("questions");
 quizzFormToSubmit.addEventListener("submit", submitForm);
-
-console.log(quizzFormToSubmit);

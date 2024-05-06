@@ -144,6 +144,21 @@ div {
   border: solid #8c65e9 2px;
 }
 
+.smallButton2 {
+  background-color: #8c65e9;
+  color: white;
+  border: black;
+  width: 100px;
+  height: 40px;
+  margin: 5px 5px;
+  padding: 4px 6px;
+  font-size: 16px;
+  display: inline-block;
+  text-align: center;
+  font-size: 16px;
+  border: solid #8c65e9 2px;
+}
+
 .bigButton #play {
   background-color: #8c65e9;
   position: relative;

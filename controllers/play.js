@@ -5,7 +5,6 @@ const { db } = require("../db/index");
 
 const playQuizz = async (req, res) => {
   const { code, name } = req.body;
-  insertToDb("responses", ["studentName"], [name]);
 
   const quizId = await getQuizIdByCode(code);
   if (!quizId) {
@@ -20,7 +19,7 @@ const playQuizz = async (req, res) => {
   );
 
   const mappedQuestions = mapOptionsToQuestions(questions, options);
-  const html = getPlayHTML(questions, options);
+  const html = getPlayHTML(questions, code, name);
   res.set("Content-Type", "text/html");
   res.send(Buffer.from(html));
 };
