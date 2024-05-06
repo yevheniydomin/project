@@ -15,7 +15,7 @@ const submitAnswers = async (req, res) => {
     );
   }
 
-  res.status(200);
+  res.redirect("http://localhost:3000/");
 };
 
 module.exports = {

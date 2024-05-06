@@ -15,22 +15,25 @@ const submitForm = async (e) => {
     }
   });
 
-  await fetch("http://localhost:3000/submit", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(formData),
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      console.log("Form submitted successfully!");
-    })
-    .catch((error) => {
-      console.error("There was a problem with your fetch operation:", error);
+  let res;
+  try {
+    res = await fetch("http://localhost:3000/submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
     });
+  } catch (err) {
+    console.error("ERROR ON SUBMITTING THE FORM\n", err);
+  }
+  if (res.ok) {
+    window.location.href = "/successPage.html";
+  } else {
+    console.error("Server responded with an error");
+  }
 };
+
 const quizzFormToSubmit = document.getElementById("questions");
+
 quizzFormToSubmit.addEventListener("submit", submitForm);
