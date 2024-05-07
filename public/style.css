@@ -6,8 +6,8 @@ html::before {
   width: 100%;
   height: 100%;
   background-image: url("backgroundImage.jpg");
-  opacity: 0.5;
-  filter: saturate(4);
+  opacity: 0.3;
+  filter: saturate(3);
   z-index: -1;
 }
 
@@ -54,6 +54,15 @@ div {
   text-align: center;
   display: block;
   margin: 5px;
+}
+
+li {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+  color: #8c65e9;
 }
 /*--------------------------------TEXT-------------------------------*/
 .title {
@@ -114,6 +123,12 @@ div {
   /*border size and colour*/
   margin: -100px 0 0 -100px;
   /*makes the box move with the screen size*/
+}
+
+.list-code {
+  font-size: large;
+  margin: 10px;
+  color: #8c65e9;
 }
 
 /* ----------------------BUTTONS-----------------------*/

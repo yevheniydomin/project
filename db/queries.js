@@ -134,6 +134,23 @@ const getByWhere = async (tableName, columName, value) => {
   });
 };
 
+const getAll = async (tableName) => {
+  return new Promise(async (resolve, reject) => {
+    await db.all(`SELECT * FROM ${tableName}`, (err, rows) => {
+      if (err) {
+        console.error("Error querying database:", err.message);
+        reject(err);
+      }
+
+      if (rows) {
+        resolve(rows);
+      } else {
+        reject(false);
+      }
+    });
+  });
+};
+
 module.exports = {
   createNewQuiz,
   createNewQuestion,
@@ -142,4 +159,5 @@ module.exports = {
   insertToDb,
   getByWhere,
   insertQuizzResult,
+  getAll,
 };

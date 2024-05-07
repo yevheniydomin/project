@@ -91,113 +91,24 @@ app.post("/uploads", (req, res) => {
   });
 });
 
-// app.post('/quizzes', async (req, res) => {
-//   const { title } = req.body;
-//   const accessCode = generateAccessCode(); // Implement your access code generation logic
+app.get("/quizzes", quizController.getQuizzesList);
 
-//   try {
-//     const stmt = db.prepare('INSERT INTO quizzes (title, accessCode) VALUES (?, ?)');
-//     const result = await stmt.run(title, accessCode);
-//     stmt.finalize();
-//     res.json({ id: result.lastID, accessCode });
-//   } catch (error) {
-//     console.error('Error creating quiz:', error);
-//     res.status(500).send('Error creating quiz');
-//   }
-// });
+// app.post("/seeResponses", (req, res) => {
+//   let sql =
+//     "SELECT * FROM responses(questionId, studentName, isCorrect) VALUES(?, ?, ?)";
+//   let seeResponses = {
+//     questionId: req.body.questionId,
+//     studentName: req.body.studentName,
+//     isCorrect: req.body.isCorrect,
+//   };
 
-// app.post('/quizzes/:quizId/questions', async (req, res) => {
-//   const { quizId } = req.params;
-//   const { text, options } = req.body;
-
-//   try {
-//     const stmt = db.prepare('INSERT INTO questions (quizId, text) VALUES (?, ?)');
-//     const result = await stmt.run(quizId, text);
-//     const questionId = result.lastID;
-//     stmt.finalize();
-
-//     const optionsStmt = db.prepare('INSERT INTO options (questionId, text, isCorrect) VALUES (?, ?, ?)');
-//     options.forEach(async (option) => {
-//       await optionsStmt.run(questionId, option.text, option.isCorrect ? 1 : 0);
-//     });
-//     optionsStmt.finalize();
-
-//     res.json({ questionId });
-//   } catch (error) {
-//     console.error('Error adding question:', error);
-//     res.status(500).send('Error adding question');
-//   }
-// });
-app.post("/quizzes", async (req, res) => {
-  const { title } = req.body;
-  const accessCode = generateAccessCode();
-
-  try {
-    const stmt = db.prepare(
-      "INSERT INTO quizzes (title, accessCode) VALUES (?, ?)",
-    );
-    const result = await stmt.run(title, accessCode);
-    stmt.finalize();
-    res.json({ id: result.lastID, accessCode });
-  } catch (error) {
-    console.error("Error creating quiz:", error);
-    res.status(500).send("Error creating quiz");
-  }
-});
-
-//add a question to a quiz
-app.post("/quizzes/:quizId/questions", async (req, res) => {
-  const { quizId } = req.params;
-  const { questionText, options } = req.body;
-
-  try {
-    const stmt = db.prepare(
-      "INSERT INTO questions (quizId, questionText) VALUES (?, ?)",
-    );
-    const result = await stmt.run(quizId, questionText);
-    const questionId = result.lastID;
-    stmt.finalize();
-
-    const optionsStmt = db.prepare(
-      "INSERT INTO options (questionId, optionText, isCorrect) VALUES (?, ?, ?)",
-    );
-    options.forEach(async (option) => {
-      await optionsStmt.run(questionId, option.text, option.isCorrect ? 1 : 0);
-    });
-    optionsStmt.finalize();
-
-    res.json({ questionId });
-  } catch (error) {
-    console.error("Error adding question:", error);
-    res.status(500).send("Error adding question");
-  }
-});
-
-// app.get("/getResponses", (req, res) => {
-//   let sql = "SELECT * FROM responses(questionId, studentName, isCorrect) VALUES(?, ?, ?)";
-//   let query = connection.query(sql, (err, rows) => {
-//     if(err) throw err;
-//     res.render()
+//   seeResponses = connection.query(sql, (err, row) => {
+//     if (err) {
+//       console.error("Error posting responses", err.message);
+//       return res.send("Error: failed to post responses");
+//     }
 //   });
-
 // });
-
-app.post("/seeResponses", (req, res) => {
-  let sql =
-    "SELECT * FROM responses(questionId, studentName, isCorrect) VALUES(?, ?, ?)";
-  let seeResponses = {
-    questionId: req.body.questionId,
-    studentName: req.body.studentName,
-    isCorrect: req.body.isCorrect,
-  };
-
-  seeResponses = connection.query(sql, (err, row) => {
-    if (err) {
-      console.error("Error posting responses", err.message);
-      return res.send("Error: failed to post responses");
-    }
-  });
-});
 
 //start the server
 app.listen(port, () => {
