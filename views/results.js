@@ -14,17 +14,15 @@ const getResultsTableHTML = (data) => {
   const middleHTML = [];
 
   for (const key in data) {
-    middleHTML.push(`<td>`);
     const middleRow = [];
-    middleRow.push(`<th>${key}</th>`);
+    middleRow.push(`<tr scope="row"><td>${key}</td>`);
     for (let i = 0; i < data[key].responses.length; i++) {
       middleRow.push(
-        `<th>${i + 1}</th><th>${data[key].responses[i].answeredOptionId}</th><th>${data[key].responses[i].isCorrect}</th>`,
+        `<td>${i + 1}</td><td>${data[key].responses[i].answeredOptionId}</td><td>${data[key].responses[i].isCorrect}</td>`,
       );
     }
-    middleRow.push(`<th>${data[key].grade}</th>`);
+    middleRow.push("</td>");
     middleHTML.push(middleRow.join(""));
-    middleHTML.push("</td>");
   }
 
   const bottomHTML = `
