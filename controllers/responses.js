@@ -4,6 +4,7 @@ const {
   getQuizIdByCode,
 } = require("../db/queries");
 const { getGroupedData } = require("../helpers/index");
+const { getResultsTableHTML } = require("../views/results");
 
 const getResponsesByQuizId = async (req, res) => {
   const accessCode = req.query.code;
@@ -29,10 +30,9 @@ const getResponsesByQuizId = async (req, res) => {
         ? (questionCount / correctAnswersCount) * 100
         : 0;
     }
-
-    // calculate score (query db how many questions in this quiz, how many correct answers in user obj, count grade and add to the user obj)
-    // build an array of raws [{username, q1, q2, q3, q4... final grade}]
-    res.send(JSON.stringify(groupedData));
+    const html = getResultsTableHTML(groupedData);
+    res.set("Content-Type", "text/html");
+    res.send(html);
   } catch (err) {
     console.error("ERROR ON GETTING RESPONSES\n", err);
   }
