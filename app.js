@@ -1,8 +1,10 @@
+//import necessary packages and files
 const express = require("express");
 const { initDataBase } = require("./db/createDB");
 const { db } = require("./db/index");
 const quizController = require("./controllers/quizController");
 const playQuizz = require("./controllers/play");
+const submitAnswers = require("./controllers/submitAnswers");
 const { getQuizIdByCode } = require("./db/queries");
 
 const app = express();
@@ -12,6 +14,7 @@ initDataBase();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
+app.use(express.json());
 
 app.post("/signup", (req, res) => {
   const email = req.body.email;
@@ -71,6 +74,8 @@ app.post("/login", (req, res) => {
 app.post("/createQuestion", quizController.createQuiz);
 
 app.post("/play", playQuizz.playQuizz);
+
+app.post("/submit", submitAnswers.submitAnswers);
 
 app.post("/uploads", (req, res) => {
   // Retrieve the URL of the uploaded image from req.file.location

@@ -11,11 +11,18 @@
         <form id="tchrSignUpForm" action="/signup" method="post" onsubmit="return validate()">
           <div class="smallBox">
             <h1>Sign Up<h1>
-            <input id="emailInput" type="text" name="email" placeholder="Enter Email" required>
-            <span id="emailMsg"></span>
-            <input id="password" type="password" name="password" placeholder="Enter Password"  required>
-            <input id="passwordRepeat" type="password" name="passwordRepeat" placeholder="Repeat Password" required>
-            <input type="submit" class="bigButton" value="Sign Up" id="signupSubmit">
+            <div class="div-input">
+              <input id="emailInput" type="text" name="email" placeholder="Enter Email" required>
+            </div>
+            <div class="div-input">
+              <input id="password" type="password" name="password" placeholder="Enter Password"  required>
+            </div>
+            <div class="div-input">
+              <input id="passwordRepeat" type="password" name="passwordRepeat" placeholder="Repeat Password" required>
+            </div>
+            <div class="div-buttons">
+              <input type="submit" class="bigButton" value="Sign Up" id="signupSubmit">
+            </div>
           </div>
         </form>
     </body>

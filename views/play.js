@@ -1,4 +1,4 @@
-const getPlayHTML = (questions) => {
+const getPlayHTML = (questions, accesCode, user) => {
   const headHTML = `<!doctype html>
 <html>
   <head>
@@ -8,28 +8,26 @@ const getPlayHTML = (questions) => {
     <title></title>
   </head>
   <body>
-    <form class = "questions">`;
+    <form id="questions">`;
+
   const bottomHTML = `
-            <input
-                class="bigButton"
-                type="button"
-                value="Submit"
-                id="submitResponse"<input/>
+            <button type="submit" class="smallButton2">Submit</button>
         </form>
+        <script src="submitQuiz.js"></script>
     </body>
 </html>;`;
   let questionsComponents = questions.map((question) => {
     return `
-        <div class="smallBox">
+        <div class="smallBox" id="${question.id}" quiz="${accesCode}" userName="${user}">
             <h1>${question.title}</h1>
             <p>${question.questionText}</p>
-            <input type="radio" value="${question.options[0].min} - ${question.options[0].max}" id="option1" />
+            <input type="radio" name="${question.id}" value="${question.options[0].id}" id="option1" />
             <label for="option1">${question.options[0].min} - ${question.options[0].max}</label><br /><br />
-            <input type="radio" value="${question.options[1].min} - ${question.options[1].max}" id="option2" />
+            <input type="radio" name="${question.id}" value="${question.options[1].id}" id="option2" />
             <label for="option2">${question.options[1].min} - ${question.options[1].max}</label><br /><br />
-            <input type="radio" value="${question.options[2].min} - ${question.options[2].max}" id="option3" />
+            <input type="radio" name="${question.id}" value="${question.options[2].id}" id="option3" />
             <label for="option3">${question.options[2].min} - ${question.options[2].max}</label><br /><br />
-            <input type="radio" value="${question.options[3].min} - ${question.options[3].max}" id="option4" />
+            <input type="radio" name="${question.id}" value="${question.options[3].id}" id="option4" />
             <label for="option4">${question.options[3].min} - ${question.options[3].max}</label><br/><br/>
         </div>`;
   });

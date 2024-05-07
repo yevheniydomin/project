@@ -18,6 +18,9 @@ const initDataBase = async () => {
       db.run(
         "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, email STRING(300), password STRING(30))",
       );
+      db.run(
+        "CREATE TABLE IF NOT EXISTS responses (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, quizId STRING(16), questionId INTEGER, studentName STRING(250), answeredOptionId INTEGER)",
+      );
     });
   } catch (err) {
     console.error("ERROR ON DB INIT\n", err);
