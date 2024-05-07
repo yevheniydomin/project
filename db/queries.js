@@ -199,6 +199,28 @@ const getIsOptionCorrect = async (optionId) => {
   });
 };
 
+const getCountOfQuestions = async (quizId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const query = db.prepare(
+        `SELECT COUNT(quizID) as questionCount FROM questions WHERE quizID = ?`,
+      );
+      query.get(quizId, (err, row) => {
+        if (err) {
+          console.error("ERROR ON DB QUERY COUNT OF QUESTIONS\n", err);
+          reject(err);
+        } else {
+          query.finalize();
+          resolve(row);
+        }
+      });
+    } catch (err) {
+      console.error("ERROR ON DB QUERY COUNT OF QUESTIONS\n", err);
+      reject(err);
+    }
+  });
+};
+
 module.exports = {
   createNewQuiz,
   createNewQuestion,
@@ -210,4 +232,5 @@ module.exports = {
   getAll,
   getResponsesByAccessCode,
   getIsOptionCorrect,
+  getCountOfQuestions,
 };
