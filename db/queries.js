@@ -151,6 +151,27 @@ const getAll = async (tableName) => {
   });
 };
 
+const getResponsesByAccessCode = async (accessCode) => {
+  return new Promise(async (resolve, reject) => {
+    await db.all(
+      `SELECT * FROM responses WHERE quizId = ?`,
+      [accessCode],
+      (err, rows) => {
+        if (err) {
+          console.error("Error querying database:", err.message);
+          reject(err);
+        }
+
+        if (rows) {
+          resolve(rows);
+        } else {
+          reject(false);
+        }
+      },
+    );
+  });
+};
+
 module.exports = {
   createNewQuiz,
   createNewQuestion,
@@ -160,4 +181,5 @@ module.exports = {
   getByWhere,
   insertQuizzResult,
   getAll,
+  getResponsesByAccessCode,
 };

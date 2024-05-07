@@ -4,6 +4,7 @@ const { db } = require("./db/index");
 const quizController = require("./controllers/quizController");
 const playQuizz = require("./controllers/play");
 const submitAnswers = require("./controllers/submitAnswers");
+const responses = require("./controllers/responses");
 const { getQuizIdByCode } = require("./db/queries");
 
 const app = express();
@@ -93,22 +94,7 @@ app.post("/uploads", (req, res) => {
 
 app.get("/quizzes", quizController.getQuizzesList);
 
-// app.post("/seeResponses", (req, res) => {
-//   let sql =
-//     "SELECT * FROM responses(questionId, studentName, isCorrect) VALUES(?, ?, ?)";
-//   let seeResponses = {
-//     questionId: req.body.questionId,
-//     studentName: req.body.studentName,
-//     isCorrect: req.body.isCorrect,
-//   };
-
-//   seeResponses = connection.query(sql, (err, row) => {
-//     if (err) {
-//       console.error("Error posting responses", err.message);
-//       return res.send("Error: failed to post responses");
-//     }
-//   });
-// });
+app.get("/responses", responses.getResponsesByQuizId);
 
 //start the server
 app.listen(port, () => {

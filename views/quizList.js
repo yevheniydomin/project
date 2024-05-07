@@ -11,7 +11,7 @@ const getQuizListHTML = (quizList) => {
     <ul class"quiz-list">`;
 
   const middleHtml = quizList.map((quiz) => {
-    return `<li class="list-code" id="${quiz.id}"> <a href="http://localhost:3000/responses?id=${quiz.id}">${quiz.accessCode}</a></li>`;
+    return `<li class="list-code" id="${quiz.id}"> <a href="http://localhost:3000/responses/?code=${quiz.accessCode}">${quiz.accessCode}</a></li>`;
   });
 
   const bottomHTML = `
