@@ -104,10 +104,16 @@ const insertToDb = async (tableName, columName, value) => {
   }
 };
 
-const insertQuizzResult = async (quizId, questionId, user, answeredOption) => {
-  const query = `INSERT INTO responses (quizId, questionId, studentName, answeredOptionId) VALUES(?, ?, ?, ?)`;
+const insertQuizzResult = async (
+  quizId,
+  questionId,
+  user,
+  answeredOption,
+  isCorrect,
+) => {
+  const query = `INSERT INTO responses (quizId, questionId, studentName, answeredOptionId, isCorrect) VALUES(?, ?, ?, ?, ?)`;
   try {
-    await db.run(query, [quizId, questionId, user, answeredOption]);
+    await db.run(query, [quizId, questionId, user, answeredOption, isCorrect]);
   } catch (err) {
     console.error("ERROR ON INSERTING QUIZ ANSWER TO DB\n", err);
   }
@@ -172,6 +178,27 @@ const getResponsesByAccessCode = async (accessCode) => {
   });
 };
 
+const getIsOptionCorrect = async (optionId) => {
+  return new Promise(async (resolve, reject) => {
+    await db.get(
+      `SELECT isCorrect FROM options WHERE id = ?`,
+      [optionId],
+      (err, rows) => {
+        if (err) {
+          console.error("Error querying database:", err.message);
+          reject(err);
+        }
+
+        if (rows) {
+          resolve(rows);
+        } else {
+          reject(false);
+        }
+      },
+    );
+  });
+};
+
 module.exports = {
   createNewQuiz,
   createNewQuestion,
@@ -182,4 +209,5 @@ module.exports = {
   insertQuizzResult,
   getAll,
   getResponsesByAccessCode,
+  getIsOptionCorrect,
 };
