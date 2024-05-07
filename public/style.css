@@ -74,8 +74,8 @@ div {
   height: 400px; /*height of the box*/
   position: absolute; /*when the box moves nothing else is affected*/
   top: 35%; /*position from the top (higher percentage further down)*/
-  left: 42.7%; /*position from the left (higher percentage further right)*/
-  border: solid 3px #2b588c; /*border size and colour*/
+  left: 41.7%; /*position from the left (higher percentage further right)*/
+  border: solid 3px #8c65e9; /*border size and colour*/
   margin: -100px 0 0 -100px; /*makes the box move with the screen size*/
   border-radius: 800px; /* rounded corners */
 }
@@ -159,8 +159,8 @@ div {
   border: solid #8c65e9 2px;
 }
 
-.bigButton #play {
-  background-color: #2b588c;
+.bigButton #play{
+  background-color: #8c65e9;
   position: relative;
   top: 115px;
   color: white;
@@ -204,8 +204,8 @@ div {
   }
 }
 
-#loginSubmit {
-  background-color: #2b588c;
+ #loginSubmit {
+  background-color: #8c65e9;
   color: white;
   border: black;
   width: 100px;
@@ -220,8 +220,8 @@ div {
   position: relative;
 }
 
-#signupSubmit {
-  background-color: #2b588c;
+ #signupSubmit {
+  background-color: #8c65e9;
   color: white;
   border: black;
   width: 100px;
