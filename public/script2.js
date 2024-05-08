@@ -23,14 +23,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const inputImgElement = document.createElement("input");
     inputImgElement.type = "file";
-    inputImgElement.name = `questions[${questionCounter}][img]`;
+    inputImgElement.name = "img";
     inputImgElement.accept = "image/*";
     inputImgElement.multiple = false;
     inputImgElement.addEventListener("change", handleFileUpload);
 
     function handleFileUpload(event) {
       const file = event.target.files[0]; // Get the selected file
-      // Do something with the file (e.g., upload it to the server)
       console.log("Selected file:", file);
     }
 
@@ -59,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const correctCheckbox = document.createElement("input");
       correctCheckbox.type = "checkbox";
-      correctCheckbox.classList.add("option-correct");
+      correctCheckbox.classList.add("option-correct-value");
       correctCheckbox.name = `questions[${questionCounter}][options][${i - 1}][correct]`;
       correctCheckbox.dataset.index = i;
       correctCheckbox.onchange = function () {
@@ -82,10 +81,10 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Function to update correct value based on checkbox state
-  function updateCorrect(checkbox) {
-    const isChecked = checkbox.checked;
-    const optionDiv = checkbox.parentElement;
-    const correctInput = optionDiv.querySelector(".option-correct-value");
-    correctInput.value = isChecked ? 1 : 0;
-  }
+  // function updateCorrect(checkbox) {
+  // 	const isChecked = checkbox.checked;
+  // 	const optionDiv = checkbox.parentElement;
+  // 	const correctInput = optionDiv.querySelector('.option-correct-value');
+  // 	correctInput.value = isChecked ? 1 : 0;
+  // }
 });

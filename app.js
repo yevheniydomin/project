@@ -1,5 +1,6 @@
 //import necessary packages and files
 const express = require("express");
+const multer = require("multer");
 const { initDataBase } = require("./db/createDB");
 const { db } = require("./db/index");
 const quizController = require("./controllers/quizController");
@@ -12,6 +13,17 @@ const app = express();
 const port = 3000;
 
 initDataBase();
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/"); // Destination folder for uploaded images
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname); // Keep original file name
+  },
+});
+
+const upload = multer({ storage: storage });
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
@@ -73,7 +85,7 @@ app.post("/login", (req, res) => {
   );
 });
 
-app.post("/createQuestion", quizController.createQuiz);
+app.post("/createQuestion", upload.array("img"), quizController.createQuiz);
 
 app.post("/play", playQuizz.playQuizz);
 

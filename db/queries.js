@@ -21,7 +21,6 @@ const createNewQuiz = async (accessCode) => {
         `INSERT INTO quizzes (accessCode) VALUES (?)`,
       );
       await query.run(accessCode);
-      query.finalize();
       resolve(await getLastInsertedId("quizzes"));
     } catch (err) {
       console.error("ERROR ON INSERTING A NEW QUIZ\n", err);
@@ -52,7 +51,9 @@ const createNewOption = async (min, max, questionId, isCorrect) => {
       const query = await db.prepare(
         "INSERT INTO options (questionId, min, max, isCorrect) VALUES (?, ?, ?, ?)",
       );
-      resolve(await query.run(questionId, min, max, isCorrect));
+      const result = await query.run(questionId, min, max, isCorrect);
+      query.finalize();
+      resolve(result);
     } catch (err) {
       console.error("ERROR ON INSERTING A NEW OPTION\n", err);
       reject(err);
