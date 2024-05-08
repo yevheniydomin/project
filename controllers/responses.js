@@ -27,7 +27,7 @@ const getResponsesByQuizId = async (req, res) => {
         }, 0);
         for (const key3 in groupedData[key].responses[key2]["results"]) {
           groupedData[key].responses[key2]["grade"] = correctAnswersCount
-            ? (correctAnswersCount / questionCount) * 100
+            ? Math.ceil((correctAnswersCount / questionCount) * 100)
             : 0;
         }
       }

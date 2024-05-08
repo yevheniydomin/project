@@ -21,6 +21,7 @@ const createNewQuiz = async (accessCode) => {
         `INSERT INTO quizzes (accessCode) VALUES (?)`,
       );
       await query.run(accessCode);
+      query.finalize();
       resolve(await getLastInsertedId("quizzes"));
     } catch (err) {
       console.error("ERROR ON INSERTING A NEW QUIZ\n", err);
@@ -36,6 +37,7 @@ const createNewQuestion = async (title, description, quizId) => {
         `INSERT INTO questions (title, quizID, questionText) VALUES (?, ?, ?)`,
       );
       await query.run(title, quizId, description);
+      query.finalize();
       resolve(await getLastInsertedId("questions"));
     } catch (err) {
       console.error("ERROR ON INSERTING A QUESTION\n", err);

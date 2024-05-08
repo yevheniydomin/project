@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
       questionSet.appendChild(correctCheckbox);
       questionSet.appendChild(label);
       questionSet.appendChild(document.createElement("br"));
-      questionSet.appendChild(document.createElement("br"));
+      // questionSet.appendChild(document.createElement('br'));
     }
 
     questionsContainer.appendChild(questionSet);

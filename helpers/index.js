@@ -21,6 +21,7 @@ const mapOptionsToQuestions = (questions, options) => {
       optionObj.every((option) => option.questionId === question.id),
     )[0];
   });
+  console.log(questions);
   return questions;
 };
 

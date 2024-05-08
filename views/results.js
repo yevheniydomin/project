@@ -32,15 +32,15 @@ const getResultsTableHTML = (data, questionCount) => {
     for (const key2 in data[key]) {
       for (const key3 in data[key][key2]) {
         middleRow.push(
-          `<tr scope="row"><td style="border: 1px solid; border-color: black;">${key}</td><td style="border: 1px solid; border-color: black;">${key3}</td>`,
+          `<tr scope="row"><td style="border: 1px solid; border-color: black; width: 20%">${key}</td><td style="border: 1px solid; border-color: black; width: 15%">${key3}</td>`,
         );
         for (let i = 0; i < data[key][key2][key3].results.length; i++) {
           middleRow.push(
-            `<td style="border: 1px solid; border-color: black;">${data[key][key2][key3].results[i].isCorrect}</td>`,
+            `<td style="border: 1px solid; border-color: black; text-align: center; width: 12%">${data[key][key2][key3].results[i].isCorrect}</td>`,
           );
         }
         middleRow.push(
-          `<td style="border: 1px solid; border-color: black;">${data[key][key2][key3].grade}</td>`,
+          `<td style="border: 1px solid; border-color: black; text-align: center; width: 10%">${data[key][key2][key3].grade} %</td>`,
         );
       }
     }
@@ -51,7 +51,6 @@ const getResultsTableHTML = (data, questionCount) => {
       </tr>
         </thead>
             </table>
-        <script src="resultsTable.js"></script>
     </body>
 </html>`;
 

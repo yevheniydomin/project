@@ -10,6 +10,7 @@ const {
 const createQuiz = async (req, res) => {
   const accessCode = await getRandomString();
   const quizId = await createNewQuiz(accessCode);
+  console.log(JSON.stringify(req.body));
 
   for (let i = 0; i < req.body.questions.length; i++) {
     const { title, description, options } = req.body.questions[i];
