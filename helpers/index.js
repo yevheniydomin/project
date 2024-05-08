@@ -28,14 +28,22 @@ const getGroupedData = (data) => {
   return data.reduce((acc, obj) => {
     const key = obj.studentName;
     if (!acc[key]) {
-      acc[key] = {};
-      acc[key].responses = [];
-      acc[key].grade = undefined;
+      acc[key] = { responses: {} };
     }
-    acc[key].responses.push(obj);
+
+    // Find or create array for this timestamp
+    const timestamp = obj.timestamp;
+    if (!acc[key].responses[timestamp]) {
+      acc[key].responses[timestamp] = { results: [] };
+    }
+
+    // Add the response to the timestamp group
+    acc[key].responses[timestamp].results.push(obj);
+
     return acc;
   }, {});
 };
+
 module.exports = {
   getRandomString,
   mapOptionsToQuestions,

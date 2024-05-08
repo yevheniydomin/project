@@ -15,22 +15,25 @@ const getResponsesByQuizId = async (req, res) => {
     const { questionCount } = await getCountOfQuestions(quizId);
 
     for (const key in groupedData) {
-      const correctAnswersCount = groupedData[key].responses.reduce(
-        (sum, currentQuestion) => {
+      for (const key2 in groupedData[key].responses) {
+        const correctAnswersCount = groupedData[key].responses[
+          key2
+        ].results.reduce((sum, currentQuestion) => {
           if (currentQuestion.isCorrect === 1) {
             return sum + 1;
           } else {
             return sum;
           }
-        },
-        0,
-      );
-
-      groupedData[key].grade = correctAnswersCount
-        ? (questionCount / correctAnswersCount) * 100
-        : 0;
+        }, 0);
+        for (const key3 in groupedData[key].responses[key2]["results"]) {
+          groupedData[key].responses[key2]["grade"] = correctAnswersCount
+            ? (correctAnswersCount / questionCount) * 100
+            : 0;
+        }
+      }
     }
-    const html = getResultsTableHTML(groupedData);
+
+    const html = getResultsTableHTML(groupedData, questionCount);
     res.set("Content-Type", "text/html");
     res.send(html);
   } catch (err) {

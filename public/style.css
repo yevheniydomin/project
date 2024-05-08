@@ -64,6 +64,10 @@ a {
   text-decoration: none;
   color: #8c65e9;
 }
+
+#result-table {
+  border: 1px solid;
+}
 /*--------------------------------TEXT-------------------------------*/
 .title {
   margin: 0 auto;
@@ -331,17 +335,17 @@ input[id="image"] {
 }
 
 /* -----------------------Response table------------------------- */
-table {
+/* table {
   border: 3px solid black;
   margin: 30px 0px;
   padding: 0px;
-}
+} */
 
-th,
+/* th,
 td {
   border: 2px solid black;
   padding: 10px;
-}
+} */
 
 .questionText {
   margin: 50px;

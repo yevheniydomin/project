@@ -19,7 +19,7 @@ const initDataBase = async () => {
         "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, email STRING(300), password STRING(30))",
       );
       db.run(
-        "CREATE TABLE IF NOT EXISTS responses (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, quizId STRING(16), questionId INTEGER, studentName STRING(250), answeredOptionId INTEGER, isCorrect BOOLEAN)",
+        "CREATE TABLE IF NOT EXISTS responses (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, quizId STRING(16), questionId INTEGER, studentName STRING(250), answeredOptionId INTEGER, isCorrect BOOLEAN, timestamp DATE DEFAULT CURRENT_TIMESTAMP)",
       );
     });
   } catch (err) {
