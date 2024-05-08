@@ -1,4 +1,4 @@
-const getPlayHTML = (questions, accesCode, user) => {
+const getPlayHTML = (questions, accessCode, user) => {
   const headHTML = `<!doctype html>
 <html>
   <head>
@@ -18,7 +18,7 @@ const getPlayHTML = (questions, accesCode, user) => {
 </html>;`;
   let questionsComponents = questions.map((question) => {
     return `
-        <div class="smallBox" id="${question.id}" quiz="${accesCode}" userName="${user}">
+        <div class="smallBox" id="${question.id}" quiz="${accessCode}" userName="${user}">
             <h1>${question.title}</h1>
             <p>${question.questionText}</p>
             <input type="radio" name="${question.id}" value="${question.options[0].id}" id="option1" />
