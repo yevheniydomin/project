@@ -19,9 +19,9 @@ body {
   color: #2b588c;
 }
 
-img {
+/* img {
   border-radius: 50%;
-}
+} */
 
 form {
   margin: 0 auto;
@@ -65,8 +65,19 @@ a {
   color: #8c65e9;
 }
 
+#img {
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+}
+
 #result-table {
   border: 1px solid;
+}
+
+.hidden {
+  visibility: hidden;
+  position: absolute;
 }
 /*--------------------------------TEXT-------------------------------*/
 .title {
@@ -94,10 +105,11 @@ a {
 }
 
 .smallBox {
-  display: block;
   background: white; /*background colour*/
   width: 600px; /*width of the box*/ /*height of the box*/
-  height: 350px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   position: center;
   margin-top: 0 auto; /*when the box moves nothing else is affected*/
   /*position from the left (higher percentage further right)*/

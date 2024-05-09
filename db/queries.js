@@ -29,13 +29,13 @@ const createNewQuiz = async (accessCode) => {
   });
 };
 
-const createNewQuestion = async (title, description, quizId) => {
+const createNewQuestion = async (title, description, quizId, imageName) => {
   return new Promise(async (resolve, reject) => {
     try {
       const query = await db.prepare(
-        `INSERT INTO questions (title, quizID, questionText) VALUES (?, ?, ?)`,
+        `INSERT INTO questions (title, quizID, questionText, imageName) VALUES (?, ?, ?, ?)`,
       );
-      await query.run(title, quizId, description);
+      await query.run(title, quizId, description, imageName);
       query.finalize();
       resolve(await getLastInsertedId("questions"));
     } catch (err) {
@@ -134,6 +134,7 @@ const getByWhere = async (tableName, columName, value) => {
         }
 
         if (rows) {
+          console.log(rows);
           resolve(rows);
         } else {
           reject(false);
@@ -224,6 +225,28 @@ const getCountOfQuestions = async (quizId) => {
   });
 };
 
+const getImgNameByQuestionId = async (questionId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const query = db.prepare(
+        `SELECT id as questionId, imageName FROM questions WHERE id = ?`,
+      );
+      query.get(questionId, (err, row) => {
+        if (err) {
+          console.error("ERROR ON DB QUERY IMG NAME\n", err);
+          reject(err);
+        } else {
+          query.finalize();
+          resolve(row);
+        }
+      });
+    } catch (err) {
+      console.error("ERROR ON DB QUERY IMG NAME\n", err);
+      reject(err);
+    }
+  });
+};
+
 module.exports = {
   createNewQuiz,
   createNewQuestion,
@@ -236,4 +259,5 @@ module.exports = {
   getResponsesByAccessCode,
   getIsOptionCorrect,
   getCountOfQuestions,
+  getImgNameByQuestionId,
 };

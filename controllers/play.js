@@ -1,5 +1,9 @@
-const { insertToDb, getByWhere, getQuizIdByCode } = require("../db/queries");
-const { mapOptionsToQuestions } = require("../helpers/index");
+const {
+  getByWhere,
+  getQuizIdByCode,
+  getImgNameByQuestionId,
+} = require("../db/queries");
+const { mapOptionsToQuestions, getBase64Img } = require("../helpers/index");
 const { getPlayHTML } = require("../views/play");
 const { db } = require("../db/index");
 
@@ -13,19 +17,27 @@ const playQuizz = async (req, res) => {
   }
   const questions = await getByWhere("questions", "quizID", quizId);
 
-  //console.log('getByWhere returned questions: \n', questions);
+  const imgNames = await Promise.all(
+    questions.map(async (question) => {
+      const dbRes = await getImgNameByQuestionId(question.id);
+      return { ["questionId"]: dbRes.questionId, imgNames: dbRes.imageName };
+    }),
+  );
+  const base64ImgMap = await getBase64Img(imgNames);
 
+  console.log(questions);
   const options = await Promise.all(
     questions.map(async (question) => {
       return await getByWhere("options", "questionId", question.id);
     }),
   );
-  //console.log('after Promise all options: \n', options);
+  console.log("after Promise all options: \n", options);
 
   const mappedQuestions = mapOptionsToQuestions(questions, options);
   //console.log('Mapped: \n', mapOptionsToQuestions);
-  //console.log(mappedQuestions);
-  const html = getPlayHTML(questions, code, name);
+  console.log(mappedQuestions);
+  const html = await getPlayHTML(questions, base64ImgMap, code, name);
+  //console.log(html);
   res.set("Content-Type", "text/html");
   res.send(Buffer.from(html));
 };

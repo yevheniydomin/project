@@ -21,6 +21,10 @@ document.addEventListener("DOMContentLoaded", function () {
     textArea.name = `questions[${questionCounter}][description]`;
     textArea.placeholder = "Problem description";
 
+    const hiddenImgName = document.createElement("input");
+    hiddenImgName.classList.add("hidden");
+    hiddenImgName.name = `questions[${questionCounter}][imgName]`;
+
     const inputImgElement = document.createElement("input");
     inputImgElement.type = "file";
     inputImgElement.name = "img";
@@ -30,13 +34,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function handleFileUpload(event) {
       const file = event.target.files[0]; // Get the selected file
-      console.log("Selected file:", file);
+      console.log("Selected file:", file.name);
+      const hiddenInput = questionSet.querySelector(".hidden");
+      hiddenInput.value = file.name;
     }
 
     questionSet.appendChild(titleInput);
     questionSet.appendChild(document.createElement("br"));
     questionSet.appendChild(document.createElement("br"));
     questionSet.appendChild(textArea);
+    questionSet.appendChild(hiddenImgName);
     questionSet.appendChild(inputImgElement);
     questionSet.appendChild(document.createElement("br"));
     questionSet.appendChild(document.createElement("br"));
