@@ -1,29 +1,44 @@
 const { getRandomString } = require("../helpers/index");
+const { getQuizListHTML } = require("../views/quizList");
 const {
   createNewQuiz,
   createNewQuestion,
   createNewOption,
+  getAll,
 } = require("../db/queries");
 
 const createQuiz = async (req, res) => {
-  console.log(JSON.stringify(req.body));
   const accessCode = await getRandomString();
   const quizId = await createNewQuiz(accessCode);
+  // console.log(JSON.stringify(req.body));
+  // console.log(req.files);
 
-  for (let i = 0; i < req.body.questions.length; i++) {
-    const { title, description, options } = req.body.questions[i];
-    const questionId = await createNewQuestion(title, description, quizId);
-    console.log(questionId, " QuestionId before creating new options");
+  for (let i = 1; i < req.body.questions.length; i++) {
+    //console.log(JSON.stringify(req.body));
+    const { title, description, options, imgName } = req.body.questions[i];
+    const questionId = await createNewQuestion(
+      title,
+      description,
+      quizId,
+      imgName,
+    );
 
-    for (const option of options) {
-      const { min, max, correct } = option;
-      console.log(questionId, " during creating options");
+    for (let i = 0; i < options.length; i++) {
+      const { min, max, correct } = options[i];
       await createNewOption(min, max, questionId, correct === "on");
     }
   }
   return res.send(`Question created successfully! Access code: ${accessCode}`);
 };
 
+const getQuizzesList = async (req, res) => {
+  const quizzes = await getAll("quizzes");
+  const quizzListHTML = getQuizListHTML(quizzes);
+  res.set("Content-Type", "text/html");
+  res.send(quizzListHTML);
+};
+
 module.exports = {
   createQuiz,
+  getQuizzesList,
 };

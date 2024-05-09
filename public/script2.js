@@ -21,23 +21,29 @@ document.addEventListener("DOMContentLoaded", function () {
     textArea.name = `questions[${questionCounter}][description]`;
     textArea.placeholder = "Problem description";
 
+    const hiddenImgName = document.createElement("input");
+    hiddenImgName.classList.add("hidden");
+    hiddenImgName.name = `questions[${questionCounter}][imgName]`;
+
     const inputImgElement = document.createElement("input");
     inputImgElement.type = "file";
-    inputImgElement.name = `questions[${questionCounter}][img]`;
+    inputImgElement.name = "img";
     inputImgElement.accept = "image/*";
     inputImgElement.multiple = false;
     inputImgElement.addEventListener("change", handleFileUpload);
 
     function handleFileUpload(event) {
       const file = event.target.files[0]; // Get the selected file
-      // Do something with the file (e.g., upload it to the server)
-      console.log("Selected file:", file);
+      console.log("Selected file:", file.name);
+      const hiddenInput = questionSet.querySelector(".hidden");
+      hiddenInput.value = file.name;
     }
 
     questionSet.appendChild(titleInput);
     questionSet.appendChild(document.createElement("br"));
     questionSet.appendChild(document.createElement("br"));
     questionSet.appendChild(textArea);
+    questionSet.appendChild(hiddenImgName);
     questionSet.appendChild(inputImgElement);
     questionSet.appendChild(document.createElement("br"));
     questionSet.appendChild(document.createElement("br"));
@@ -45,19 +51,21 @@ document.addEventListener("DOMContentLoaded", function () {
     for (let i = 1; i <= 4; i++) {
       const minInput = document.createElement("input");
       minInput.type = "number";
+      minInput.step = "any";
       minInput.classList.add("option-min");
       minInput.name = `questions[${questionCounter}][options][${i - 1}][min]`;
       minInput.placeholder = `Min Option ${i}`;
 
       const maxInput = document.createElement("input");
       maxInput.type = "number";
+      maxInput.step = "any";
       maxInput.classList.add("option-max");
       maxInput.name = `questions[${questionCounter}][options][${i - 1}][max]`;
       maxInput.placeholder = `Max Option ${i}`;
 
       const correctCheckbox = document.createElement("input");
       correctCheckbox.type = "checkbox";
-      correctCheckbox.classList.add("option-correct");
+      correctCheckbox.classList.add("option-correct-value");
       correctCheckbox.name = `questions[${questionCounter}][options][${i - 1}][correct]`;
       correctCheckbox.dataset.index = i;
       correctCheckbox.onchange = function () {
@@ -73,17 +81,17 @@ document.addEventListener("DOMContentLoaded", function () {
       questionSet.appendChild(correctCheckbox);
       questionSet.appendChild(label);
       questionSet.appendChild(document.createElement("br"));
-      questionSet.appendChild(document.createElement("br"));
+      // questionSet.appendChild(document.createElement('br'));
     }
 
     questionsContainer.appendChild(questionSet);
   });
 
   // Function to update correct value based on checkbox state
-  function updateCorrect(checkbox) {
-    const isChecked = checkbox.checked;
-    const optionDiv = checkbox.parentElement;
-    const correctInput = optionDiv.querySelector(".option-correct-value");
-    correctInput.value = isChecked ? 1 : 0;
-  }
+  // function updateCorrect(checkbox) {
+  // 	const isChecked = checkbox.checked;
+  // 	const optionDiv = checkbox.parentElement;
+  // 	const correctInput = optionDiv.querySelector('.option-correct-value');
+  // 	correctInput.value = isChecked ? 1 : 0;
+  // }
 });

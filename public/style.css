@@ -1,86 +1,167 @@
-html {
-  background-image: url("backgroundImage.jpg");
-  opacity: 0.5;
-  filter: saturate(4);
-  text-align: center;
-  font-family: Arial;
-  height: 100%;
+html::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
+  height: 100%;
+  background-image: url("backgroundImage.jpg");
+  opacity: 0.3;
+  filter: saturate(3);
+  z-index: -1;
+}
+
+html {
   color: #2b588c;
 }
 
-img {
-  border-radius: 50%;
+body {
+  color: #2b588c;
 }
 
+/* img {
+  border-radius: 50%;
+} */
 
+form {
+  margin: 0 auto;
+  width: 500px;
+}
+
+label {
+  display: inline;
+  position: relative;
+}
+h1 {
+  padding-left: 5px;
+  padding-top: 5px;
+  text-align: center;
+  font-family: Arial;
+  position: relative;
+  margin-top: 35px;
+}
+
+h3 {
+  padding-left: 5px;
+  padding-top: 5px;
+  text-align: center;
+  font-family: Arial;
+  position: relative;
+  top: 45px;
+}
+
+div {
+  text-align: center;
+  display: block;
+  margin: 5px;
+}
+
+li {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+  color: #8c65e9;
+}
+
+#img {
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+}
+
+#result-table {
+  border: 1px solid;
+}
+
+.hidden {
+  visibility: hidden;
+  position: absolute;
+}
 /*--------------------------------TEXT-------------------------------*/
 .title {
-  position: absolute;
-  font-size: 60px;
-  text-align: center;
-  top: 15%;
-  left: 15%;
+  margin: 0 auto;
+
   /* margin: 125px -100px; */
 }
 .subtitle {
-  position: absolute;
-  font-size: 20px;
+  display: block;
   text-align: center;
-  top: 38%;
-  left: 17%;
+  font-family: Arial;
 }
 
 /*--------------------------BOXES WITH TEXT--------------------------*/
 .circle {
   background: white; /*background colour*/
-  width: 500px; /*width of the box*/
-  height: 500px; /*height of the box*/
+  width: 420px; /*width of the box*/
+  height: 400px; /*height of the box*/
   position: absolute; /*when the box moves nothing else is affected*/
   top: 35%; /*position from the top (higher percentage further down)*/
-  left: 42%; /*position from the left (higher percentage further right)*/
-  border: solid 3px #133562; /*border size and colour*/
+  left: 42.7%; /*position from the left (higher percentage further right)*/
+  border: solid 3px #2b588c; /*border size and colour*/
   margin: -100px 0 0 -100px; /*makes the box move with the screen size*/
   border-radius: 800px; /* rounded corners */
 }
 
 .smallBox {
   background: white; /*background colour*/
-  width: 500px; /*width of the box*/
-  height: 350px; /*height of the box*/
-  position: absolute; /*when the box moves nothing else is affected*/
-  top: 35%; /*position from the top (higher percentage further down)*/
-  left: 42%; /*position from the left (higher percentage further right)*/
-  border: solid 3px #133562; /*border size and colour*/
-  margin: -100px 0 0 -100px; /*makes the box move with the screen size*/
+  width: 600px; /*width of the box*/ /*height of the box*/
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: center;
+  margin-top: 0 auto; /*when the box moves nothing else is affected*/
+  /*position from the left (higher percentage further right)*/
+  border: solid 2px #2b588c; /*border size and colour*/
+  /*makes the box move with the screen size*/
 }
 
+/* .questions {
+  width: 500px;
+  position: absolute;
+} */
+
 .bigBox {
-  background: white; /*background colour*/
-  width: 1300px; /*width of the box*/
-  height: 700px; /*height of the box*/
-  position: absolute; /*when the box moves nothing else is affected*/
-  top: 31%; /*position from the top (higher percentage further down)*/
-  left: 20%; /*position from the left (higher percentage further right)*/
-  border: solid 3px #133562; /*border size and colour*/
-  margin: -100px 0 0 -100px; /*makes the box move with the screen size*/
+  background: white;
+  /*background colour*/
+  width: 1300px;
+  /*width of the box*/
+  height: 700px;
+  /*height of the box*/
+  position: absolute;
+  /*when the box moves nothing else is affected*/
+  top: 31%;
+  /*position from the top (higher percentage further down)*/
+  left: 20%;
+  /*position from the left (higher percentage further right)*/
+  border: solid 3px #2b588c;
+  /*border size and colour*/
+  margin: -100px 0 0 -100px;
+  /*makes the box move with the screen size*/
+}
+
+.list-code {
+  font-size: large;
+  margin: 10px;
+  color: #8c65e9;
 }
 
 /* ----------------------BUTTONS-----------------------*/
 
 /* button characteristics */
-.bigButton {
-  background-color: #133562;
-  color: white;
-  border: black;
-  padding: 20px 60px;
-  text-align: center;
-  display: inline-block;
-  font-size: 16px;
+
+.div-buttons {
+  position: relative;
+}
+
+.header {
+  margin-top: 20px;
+  margin-bottom: 40px;
 }
 
 .smallButton {
-  background-color: #133562;
+  background-color: #2b588c;
   color: white;
   border: black;
   width: 100px;
@@ -88,25 +169,109 @@ img {
   margin: 5px 5px;
   padding: 4px 6px;
   font-size: 16px;
+  display: inline-block;
+  text-align: center;
+  font-size: 16px;
+  border: solid #2b588c 2px;
+}
+
+.smallButton2 {
+  background-color: #2b588c;
+  color: white;
+  border: black;
+  width: 100px;
+  height: 40px;
+  margin: 5px 5px;
+  padding: 4px 6px;
+  font-size: 16px;
+  display: inline-block;
+  text-align: center;
+  font-size: 16px;
+  border: solid #8c65e9 2px;
+}
+
+.bigButton #play {
+  background-color: #2b588c;
+  position: relative;
+  top: 115px;
+  color: white;
+  border: black;
+  padding: 15px 15px;
   text-align: center;
   display: inline-block;
   font-size: 16px;
+  width: 150px;
+  height: 50px;
+}
+
+.option-column {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 /* button positions */
-#play {
-  position: absolute;
-  top: 50%;
-  left: 53%;
-  margin: 100px -100px;
+
+#play:hover {
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  transform: translate3d(0, 0, 0);
+  perspective: 1000px;
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
 }
 
 #loginSubmit {
-  margin: 140px -100px;
+  background-color: #2b588c;
+  color: white;
+  border: black;
+  width: 100px;
+  height: 40px;
+  margin: 75px 25px;
+  padding: 4px 6px;
+  font-size: 16px;
+  display: inline-block;
+  text-align: center;
+  font-size: 16px;
+  border: solid #2b588c 2px;
+  position: relative;
 }
 
 #signupSubmit {
-  margin: 140px -100px;
+  background-color: #2b588c;
+  color: white;
+  border: black;
+  width: 100px;
+  height: 40px;
+  margin: 25px 25px;
+  padding: 4px 6px;
+  font-size: 16px;
+  display: inline-block;
+  text-align: center;
+  font-size: 16px;
+  border: solid #2b588c 2px;
+  position: relative;
 }
 
 #submit {
@@ -121,12 +286,18 @@ img {
   margin: 140px -100px;
 }
 
-
 /* ----------------------SIGNING IN REQUIRMENTS------------------------*/
 /*centers the username and password requirments for login and signup pages*/
-input[type="text"] {
+
+.div-input {
+  display: block;
+  width: 600px;
+  text-align: center;
+  margin-top: 10px;
+}
+/* input[type="email"] {
   position: absolute;
-  margin: 50px -95px;
+  margin: 75px -95px;
   padding: 0px;
   width: 200px;
 }
@@ -136,9 +307,9 @@ input[type="password"] {
   margin: 75px -95px;
   padding: 0px;
   width: 200px;
-}
+} */
 
-input[id="passwordRepeat"] {
+/*input[id="passwordRepeat"] {
   position: absolute;
   margin: 100px -95px;
   padding: 0px;
@@ -168,6 +339,7 @@ input[id="questionTitle"] {
   padding: 0px;
   width: 200px;
 }
+
 textarea[id="questionText"] {
   position: center;
   width: 420px;
@@ -182,17 +354,17 @@ input[id="image"] {
 }
 
 /* -----------------------Response table------------------------- */
-table {
+/* table {
   border: 3px solid black;
   margin: 30px 0px;
   padding: 0px;
-}
+} */
 
-th,
+/* th,
 td {
   border: 2px solid black;
   padding: 10px;
-}
+} */
 
 .questionText {
   margin: 50px;

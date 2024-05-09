@@ -8,10 +8,12 @@
     <style>
       body {
         background-image: url("whiteVignette.jpg");
-        width: 100%;
-        height: auto;
+        width: 100vw;
+        height: 100vh;
+        /* width: 100%;
+        height: auto; */
         /* makes for only one image being overlaided (the one image takes up the screen, not 6 of the image) */
-        /*background-size: cover;
+        background-size: cover;
         /* background-repeat: repeat-y; */
         /* background-attachment: scroll; */
         /*margin being zero makes the image start in the upper left corner*/
@@ -22,8 +24,6 @@
     <!-- <div class="img">
       <img src="whiteVignette.jpg">
     </div> -->
-
-
   </head>
 
   <body>
@@ -31,7 +31,12 @@
     <button class="smallButton" type="button" onclick="responses()">
       Responses
     </button>
-    <form id="quizForm" action="/createQuestion" method="post">
+    <form
+      id="quizForm"
+      action="/createQuestion"
+      method="post"
+      enctype="multipart/form-data"
+    >
       <div id="questionsContainer">
         <!-- Question fields will be added here dynamically -->
       </div>
@@ -43,34 +48,34 @@
   </body>
 
   <script>
-    function addQuestionSet() {
-      const container = document.getElementById("questionForm");
-      const template = container.querySelector(".questionSet");
-      const questionSet = template.cloneNode(true);
+    // function addQuestionSet() {
+    //   const container = document.getElementById("questionForm");
+    //   const template = container.querySelector(".questionSet");
+    //   const questionSet = template.cloneNode(true);
 
-      //сlearing the input values
-      const inputs = questionSet.querySelectorAll(
-        'input[type="text"], input[type="number"]',
-      );
-      inputs.forEach((input) => (input.value = ""));
+    //   //сlearing the input values
+    //   const inputs = questionSet.querySelectorAll(
+    //     'input[type="text"], input[type="number"]',
+    //   );
+    //   inputs.forEach((input) => (input.value = ""));
 
-      //uncheck all checkboxes
-      const checkboxes = questionSet.querySelectorAll('input[type="checkbox"]');
-      checkboxes.forEach((checkbox) => (checkbox.checked = false));
+    //uncheck all checkboxes
+    // const checkboxes = questionSet.querySelectorAll('input[type="checkbox"]');
+    // checkboxes.forEach((checkbox) => (checkbox.checked = false));
 
-      //append the cloned question set to the container
-      container.appendChild(questionSet);
-    }
+    //append the cloned question set to the container
+    // container.appendChild(questionSet);
+    //}
 
-    function updateCorrect(checkbox) {
-      const isChecked = checkbox.checked;
-      const optionDiv = checkbox.parentElement; //get the parent container
-      const correctInput = optionDiv.querySelector(".option-correct-value");
-      correctInput.value = isChecked ? 1 : 0;
-    }
+    // function updateCorrect(checkbox) {
+    //   const isChecked = checkbox.checked;
+    //   const optionDiv = checkbox.parentElement;
+    //   const correctInput = optionDiv.querySelector(".option-correct-value");
+    //   correctInput.value = isChecked ? 1 : 0;
+    // }
 
     function responses() {
-      window.location.href = "summaryTable.html";
+      window.location.href = "/quizzes";
     }
   </script>
 </html>

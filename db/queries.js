@@ -29,13 +29,14 @@ const createNewQuiz = async (accessCode) => {
   });
 };
 
-const createNewQuestion = async (title, description, quizId) => {
+const createNewQuestion = async (title, description, quizId, imageName) => {
   return new Promise(async (resolve, reject) => {
     try {
       const query = await db.prepare(
-        `INSERT INTO questions (title, quizID, questionText) VALUES (?, ?, ?)`,
+        `INSERT INTO questions (title, quizID, questionText, imageName) VALUES (?, ?, ?, ?)`,
       );
-      await query.run(title, quizId, description);
+      await query.run(title, quizId, description, imageName);
+      query.finalize();
       resolve(await getLastInsertedId("questions"));
     } catch (err) {
       console.error("ERROR ON INSERTING A QUESTION\n", err);
@@ -50,7 +51,9 @@ const createNewOption = async (min, max, questionId, isCorrect) => {
       const query = await db.prepare(
         "INSERT INTO options (questionId, min, max, isCorrect) VALUES (?, ?, ?, ?)",
       );
-      resolve(await query.run(questionId, min, max, isCorrect));
+      const result = await query.run(questionId, min, max, isCorrect);
+      query.finalize();
+      resolve(result);
     } catch (err) {
       console.error("ERROR ON INSERTING A NEW OPTION\n", err);
       reject(err);
@@ -104,11 +107,65 @@ const insertToDb = async (tableName, columName, value) => {
   }
 };
 
+const insertQuizzResult = async (
+  quizId,
+  questionId,
+  user,
+  answeredOption,
+  isCorrect,
+) => {
+  const query = `INSERT INTO responses (quizId, questionId, studentName, answeredOptionId, isCorrect) VALUES(?, ?, ?, ?, ?)`;
+  try {
+    await db.run(query, [quizId, questionId, user, answeredOption, isCorrect]);
+  } catch (err) {
+    console.error("ERROR ON INSERTING QUIZ ANSWER TO DB\n", err);
+  }
+};
+
 const getByWhere = async (tableName, columName, value) => {
   return new Promise(async (resolve, reject) => {
-    await db.get(
+    await db.all(
       `SELECT * FROM ${tableName} WHERE ${columName} = ?`,
       [value],
+      (err, rows) => {
+        if (err) {
+          console.error("Error querying database:", err.message);
+          reject(err);
+        }
+
+        if (rows) {
+          console.log(rows);
+          resolve(rows);
+        } else {
+          reject(false);
+        }
+      },
+    );
+  });
+};
+
+const getAll = async (tableName) => {
+  return new Promise(async (resolve, reject) => {
+    await db.all(`SELECT * FROM ${tableName}`, (err, rows) => {
+      if (err) {
+        console.error("Error querying database:", err.message);
+        reject(err);
+      }
+
+      if (rows) {
+        resolve(rows);
+      } else {
+        reject(false);
+      }
+    });
+  });
+};
+
+const getResponsesByAccessCode = async (accessCode) => {
+  return new Promise(async (resolve, reject) => {
+    await db.all(
+      `SELECT * FROM responses WHERE quizId = ?`,
+      [accessCode],
       (err, rows) => {
         if (err) {
           console.error("Error querying database:", err.message);
@@ -125,6 +182,71 @@ const getByWhere = async (tableName, columName, value) => {
   });
 };
 
+const getIsOptionCorrect = async (optionId) => {
+  return new Promise(async (resolve, reject) => {
+    await db.get(
+      `SELECT isCorrect FROM options WHERE id = ?`,
+      [optionId],
+      (err, rows) => {
+        if (err) {
+          console.error("Error querying database:", err.message);
+          reject(err);
+        }
+
+        if (rows) {
+          resolve(rows);
+        } else {
+          reject(false);
+        }
+      },
+    );
+  });
+};
+
+const getCountOfQuestions = async (quizId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const query = db.prepare(
+        `SELECT COUNT(quizID) as questionCount FROM questions WHERE quizID = ?`,
+      );
+      query.get(quizId, (err, row) => {
+        if (err) {
+          console.error("ERROR ON DB QUERY COUNT OF QUESTIONS\n", err);
+          reject(err);
+        } else {
+          query.finalize();
+          resolve(row);
+        }
+      });
+    } catch (err) {
+      console.error("ERROR ON DB QUERY COUNT OF QUESTIONS\n", err);
+      reject(err);
+    }
+  });
+};
+
+const getImgNameByQuestionId = async (questionId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const query = db.prepare(
+        `SELECT id as questionId, imageName FROM questions WHERE id = ?`,
+      );
+      query.get(questionId, (err, row) => {
+        if (err) {
+          console.error("ERROR ON DB QUERY IMG NAME\n", err);
+          reject(err);
+        } else {
+          query.finalize();
+          resolve(row);
+        }
+      });
+    } catch (err) {
+      console.error("ERROR ON DB QUERY IMG NAME\n", err);
+      reject(err);
+    }
+  });
+};
+
 module.exports = {
   createNewQuiz,
   createNewQuestion,
@@ -132,4 +254,10 @@ module.exports = {
   getQuizIdByCode,
   insertToDb,
   getByWhere,
+  insertQuizzResult,
+  getAll,
+  getResponsesByAccessCode,
+  getIsOptionCorrect,
+  getCountOfQuestions,
+  getImgNameByQuestionId,
 };

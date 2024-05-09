@@ -1,43 +1,50 @@
 <!--Our main page-->
-<!DOCTYPE html>
+<!doctype html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>PhysicsFun</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <!-- alt text for accessibility-->
+  </head>
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>PhysicsFun</title>
-  <link href="style.css" rel="stylesheet" type="text/css" />
-  <!-- alt text for accessibility--> 
-</head>
-
-<body>
-  <script src="script.js"></script>
-  <div class="circle">
-    <h1 class="title">Physics Fun!</h1>
-    <h3 class="subtitle">Welcome to the question generator.</h3>
-    <!--play button-->
-    <button class="bigButton" id = "play" onclick="play()" value ="play">Play</button>
+  <body>
+    <script src="script.js"></script>
+    <div class="header">
+      <!--login button-->
+      <button class="smallButton" id="login" onclick="login()" value="Login">
+        Log in
+      </button>
+      <!--signup button-->
+      <button class="smallButton" id="signup" onclick="signup()" value="SignUp">
+        Sign up
+      </button>
     </div>
-  </div>
-
-    <!--login button-->
-    <button class="smallButton" id = "login" onclick= "login()" value= "Login">Log in</button>
-    <!--signup button-->
-    <button class="smallButton" id = "signup" onclick = "signup()" value = "SignUp">Sign up</button>
-  
-</body>
-<script>
-  /**Redirects to login page when user clicks on the login button.*/
-  function login(){
-    window.location.href='login.html'
-  }
-  /**Redirects to signup page when user clicks on the login button.*/
-  function signup(){
-    window.location.href='signup.html'
-  }
-  /**Redirects to student page when user clicks on the play button.*/
-  function play(){
-    window.location.href='play.html'
-  }
-</script>
+    <div class="circle">
+      <div>
+        <h1>Physics Fun!</h1>
+      </div>
+      <div>
+        <h3>Welcome to the question generator.</h3>
+      </div>
+      <div class="bigButton">
+        <button id="play" onclick="play()" value="play">Play</button>
+      </div>
+    </div>
+  </body>
+  <script>
+    /**Redirects to login page when user clicks on the login button.*/
+    function login() {
+      window.location.href = "login.html";
+    }
+    /**Redirects to signup page when user clicks on the login button.*/
+    function signup() {
+      window.location.href = "signup.html";
+    }
+    /**Redirects to student page when user clicks on the play button.*/
+    function play() {
+      window.location.href = "play.html";
+    }
+  </script>
 </html>

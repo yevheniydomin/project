@@ -1,8 +1,12 @@
+//import necessary packages and files
 const express = require("express");
+const multer = require("multer");
 const { initDataBase } = require("./db/createDB");
 const { db } = require("./db/index");
 const quizController = require("./controllers/quizController");
 const playQuizz = require("./controllers/play");
+const submitAnswers = require("./controllers/submitAnswers");
+const responses = require("./controllers/responses");
 const { getQuizIdByCode } = require("./db/queries");
 
 const app = express();
@@ -10,8 +14,21 @@ const port = 3000;
 
 initDataBase();
 
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/"); // Destination folder for uploaded images
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname); // Keep original file name
+  },
+});
+
+const upload = multer({ storage: storage });
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
+app.use(express.static(__dirname + "/responses"));
+app.use(express.json());
 
 app.post("/signup", (req, res) => {
   const email = req.body.email;
@@ -68,9 +85,11 @@ app.post("/login", (req, res) => {
   );
 });
 
-app.post("/createQuestion", quizController.createQuiz);
+app.post("/createQuestion", upload.array("img"), quizController.createQuiz);
 
 app.post("/play", playQuizz.playQuizz);
+
+app.post("/submit", submitAnswers.submitAnswers);
 
 app.post("/uploads", (req, res) => {
   // Retrieve the URL of the uploaded image from req.file.location
@@ -87,113 +106,9 @@ app.post("/uploads", (req, res) => {
   });
 });
 
-// app.post('/quizzes', async (req, res) => {
-//   const { title } = req.body;
-//   const accessCode = generateAccessCode(); // Implement your access code generation logic
+app.get("/quizzes", quizController.getQuizzesList);
 
-//   try {
-//     const stmt = db.prepare('INSERT INTO quizzes (title, accessCode) VALUES (?, ?)');
-//     const result = await stmt.run(title, accessCode);
-//     stmt.finalize();
-//     res.json({ id: result.lastID, accessCode });
-//   } catch (error) {
-//     console.error('Error creating quiz:', error);
-//     res.status(500).send('Error creating quiz');
-//   }
-// });
-
-// app.post('/quizzes/:quizId/questions', async (req, res) => {
-//   const { quizId } = req.params;
-//   const { text, options } = req.body;
-
-//   try {
-//     const stmt = db.prepare('INSERT INTO questions (quizId, text) VALUES (?, ?)');
-//     const result = await stmt.run(quizId, text);
-//     const questionId = result.lastID;
-//     stmt.finalize();
-
-//     const optionsStmt = db.prepare('INSERT INTO options (questionId, text, isCorrect) VALUES (?, ?, ?)');
-//     options.forEach(async (option) => {
-//       await optionsStmt.run(questionId, option.text, option.isCorrect ? 1 : 0);
-//     });
-//     optionsStmt.finalize();
-
-//     res.json({ questionId });
-//   } catch (error) {
-//     console.error('Error adding question:', error);
-//     res.status(500).send('Error adding question');
-//   }
-// });
-app.post("/quizzes", async (req, res) => {
-  const { title } = req.body;
-  const accessCode = generateAccessCode();
-
-  try {
-    const stmt = db.prepare(
-      "INSERT INTO quizzes (title, accessCode) VALUES (?, ?)",
-    );
-    const result = await stmt.run(title, accessCode);
-    stmt.finalize();
-    res.json({ id: result.lastID, accessCode });
-  } catch (error) {
-    console.error("Error creating quiz:", error);
-    res.status(500).send("Error creating quiz");
-  }
-});
-
-//add a question to a quiz
-app.post("/quizzes/:quizId/questions", async (req, res) => {
-  const { quizId } = req.params;
-  const { questionText, options } = req.body;
-
-  try {
-    const stmt = db.prepare(
-      "INSERT INTO questions (quizId, questionText) VALUES (?, ?)",
-    );
-    const result = await stmt.run(quizId, questionText);
-    const questionId = result.lastID;
-    stmt.finalize();
-
-    const optionsStmt = db.prepare(
-      "INSERT INTO options (questionId, optionText, isCorrect) VALUES (?, ?, ?)",
-    );
-    options.forEach(async (option) => {
-      await optionsStmt.run(questionId, option.text, option.isCorrect ? 1 : 0);
-    });
-    optionsStmt.finalize();
-
-    res.json({ questionId });
-  } catch (error) {
-    console.error("Error adding question:", error);
-    res.status(500).send("Error adding question");
-  }
-});
-
-// app.get("/getResponses", (req, res) => {
-//   let sql = "SELECT * FROM responses(questionId, studentName, isCorrect) VALUES(?, ?, ?)";
-//   let query = connection.query(sql, (err, rows) => {
-//     if(err) throw err;
-//     res.render()
-//   });
-
-// });
-
-app.post("/seeResponses", (req, res) => {
-  let sql =
-    "SELECT * FROM responses(questionId, studentName, isCorrect) VALUES(?, ?, ?)";
-  let seeResponses = {
-    questionId: req.body.questionId,
-    studentName: req.body.studentName,
-    isCorrect: req.body.isCorrect,
-  };
-
-  seeResponses = connection.query(sql, (err, row) => {
-    if (err) {
-      console.error("Error posting responses", err.message);
-      return res.send("Error: failed to post responses");
-    }
-  });
-});
+app.get("/responses", responses.getResponsesByQuizId);
 
 //start the server
 app.listen(port, () => {
