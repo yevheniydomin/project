@@ -26,7 +26,9 @@ const getPlayHTML = (questions, base64ImgMap, accessCode, user) => {
 
 		return `
         <div class="smallBox" id="${question.id}" quiz="${accessCode}" userName="${user}">
-            <h1>${question.title}</h1>
+            <div style="">
+              <h1 style="overflow-wrap: break-word;">${question.title}</h1>
+            </div>
             ${img}
             <p>${question.questionText}</p>
             <div class="option-column">

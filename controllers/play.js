@@ -25,17 +25,15 @@ const playQuizz = async (req, res) => {
   );
   const base64ImgMap = await getBase64Img(imgNames);
 
-  console.log(questions);
   const options = await Promise.all(
     questions.map(async (question) => {
       return await getByWhere("options", "questionId", question.id);
     }),
   );
-  console.log("after Promise all options: \n", options);
 
   const mappedQuestions = mapOptionsToQuestions(questions, options);
   //console.log('Mapped: \n', mapOptionsToQuestions);
-  console.log(mappedQuestions);
+
   const html = await getPlayHTML(questions, base64ImgMap, code, name);
   //console.log(html);
   res.set("Content-Type", "text/html");
