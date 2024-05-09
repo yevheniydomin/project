@@ -11,26 +11,32 @@
     <form id="accessQuestion" action="/play" method="post">
       <div class="smallBox">
         <h1>Play</h1>
-        <input
-          id="code"
-          type="password"
-          name="code"
-          placeholder="Enter Class Code"
-          required
-        />
-        <input
-          id="name"
-          type="text"
-          name="name"
-          placeholder="Enter Name"
-          required
-        />
-        <input
-          type="submit"
-          class="bigButton"
-          value="Submit"
-          id="studentSubmit"
-        />
+        <div>
+          <div>
+            <input
+              id="code"
+              type="password"
+              name="code"
+              placeholder="Enter Class Code"
+              required
+            />
+          </div>
+          <div>
+            <input
+              id="name"
+              type="text"
+              name="name"
+              placeholder="Enter Name"
+              required
+            />
+          </div>
+          <input
+            type="submit"
+            class="smallButton"
+            value="Submit"
+            id="studentSubmit"
+          />
+        </div>
       </div>
     </form>
   </body>

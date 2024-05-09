@@ -204,6 +204,13 @@ a {
   height: 50px;
 }
 
+.option-column {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
 /* button positions */
 
 #play:hover {
